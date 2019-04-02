@@ -8,6 +8,7 @@ public class TacsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TacsApplication.class, args);
+		System.out.println("------------WAKE UP----------");
 	}
 
 }
