@@ -10,5 +10,4 @@ public class TacsApplication {
 		SpringApplication.run(TacsApplication.class, args);
 		System.out.println("------------WAAKE UP----------");
 	}
-
 }

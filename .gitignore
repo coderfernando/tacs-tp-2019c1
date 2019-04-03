@@ -24,6 +24,7 @@ hs_err_pid*
 
 # idea things
 .idea/
+target/
 
 # User-specific stuff:
 .idea/workspace.xml
@@ -35,4 +36,4 @@ hs_err_pid*
 ## File-based project format:
 *.iws
 *.iml
-*.imll 
+*.lst
