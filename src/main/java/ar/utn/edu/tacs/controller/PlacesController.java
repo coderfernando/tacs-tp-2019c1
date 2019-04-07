@@ -1,7 +1,6 @@
 package ar.utn.edu.tacs.controller;
 
 import ar.utn.edu.tacs.model.Place;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
