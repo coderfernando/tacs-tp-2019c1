@@ -1,4 +1,4 @@
-package ar.utn.edu.tacs.controller;
+package ar.utn.edu.tacs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
