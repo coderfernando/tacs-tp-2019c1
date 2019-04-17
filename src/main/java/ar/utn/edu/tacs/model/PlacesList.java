@@ -1,12 +1,14 @@
 package ar.utn.edu.tacs.model;
 
+import ar.utn.edu.tacs.model.places.Venue;
+
 import java.util.ArrayList;
 
 public class PlacesList {
 
     private long id;
     private String name;
-    private ArrayList<Place> places;
+    private ArrayList<Venue> places;
     private ArrayList<Long> visitedPlaces;
 
     public PlacesList() { }
@@ -28,11 +30,11 @@ public class PlacesList {
         this.name = name;
     }
 
-    public ArrayList<Place> getPlaces() {
+    public ArrayList<Venue> getPlaces() {
         return places;
     }
 
-    public void setPlaces(ArrayList<Place> places) {
+    public void setPlaces(ArrayList<Venue> places) {
         this.places = places;
     }
 
