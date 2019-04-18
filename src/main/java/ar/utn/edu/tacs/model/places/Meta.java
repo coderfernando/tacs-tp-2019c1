@@ -3,12 +3,8 @@ package ar.utn.edu.tacs.model.places;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -23,6 +19,9 @@ public class Meta {
     private String requestId;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonProperty("errorDetail")
+    private String errorDetail;
 
     @JsonProperty("code")
     public Integer getCode() {
@@ -52,6 +51,16 @@ public class Meta {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @JsonGetter
+    public String getErrorDetail() {
+        return errorDetail;
+    }
+
+    @JsonSetter
+    public void setErrorDetail(String errorDetail) {
+        this.errorDetail = errorDetail;
     }
 
 }
