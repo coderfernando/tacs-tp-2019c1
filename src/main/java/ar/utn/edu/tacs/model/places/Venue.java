@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.springframework.data.annotation.Id;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -28,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class Venue {
 
+
+    @Id
     @JsonProperty("id")
     private String id;
     @JsonProperty("name")

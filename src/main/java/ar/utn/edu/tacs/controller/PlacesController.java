@@ -5,8 +5,10 @@ import ar.utn.edu.tacs.exceptions.VenuesNotFoundException;
 import ar.utn.edu.tacs.model.places.ExplorePlacesResponse;
 import ar.utn.edu.tacs.model.places.Item;
 import ar.utn.edu.tacs.model.places.Venue;
+import ar.utn.edu.tacs.repositories.VenuesRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -25,11 +27,17 @@ import java.util.stream.Collectors;
 @RequestMapping("/places")
 public class PlacesController {
 
+
+    @Autowired
+    VenuesRepository venuesRepository;
+
     private String BASE_URL = "https://api.foursquare.com/v2/venues";
     private String apiVersion = "20180323";
     private String clientId = "L2O2R2SIVIE30PG1VVHU4H0OSCXF1ACUFW14CJF0KZRBBAUT";
     private String clientSecret = "NAMIH3VSGZ4XANKTRQLVDLKI2TBCW02Y15MH0F2FSUVLPRJ2";
     private Logger logger = LoggerFactory.getLogger(PlacesController.class);
+
+
 
     @GetMapping("")
     public ArrayList<Venue> getPlaces(
@@ -59,7 +67,7 @@ public class PlacesController {
             logger.info("GET -> " + targetUrl.getQuery());
             ExplorePlacesResponse response = new RestTemplate().getForObject(targetUrl, ExplorePlacesResponse.class);
             if (response != null && response.getMeta().getCode() == 200) {
-                return response.getResponse()
+                ArrayList<Venue> venues = response.getResponse()
                         .getGroups()
                         .stream()
                         .flatMap(group -> group.getItems().stream())
