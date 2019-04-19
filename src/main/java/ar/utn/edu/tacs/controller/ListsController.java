@@ -1,44 +1,42 @@
 package ar.utn.edu.tacs.controller;
 
 import ar.utn.edu.tacs.model.PlacesList;
-import ar.utn.edu.tacs.request.AddPlaceToListRequest;
-import ar.utn.edu.tacs.request.ChangePlacesListNameRequest;
-import ar.utn.edu.tacs.request.CheckinPlaceInPlacesListRequest;
+import ar.utn.edu.tacs.model.places.Venue;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping ("/placeslists")
+@RequestMapping ("me/lists")
 public class ListsController {
 
-    @PostMapping("/create")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public PlacesList create(@RequestBody PlacesList placesList) {
         return placesList;
     }
 
-    @PostMapping("/change-name")
+    @PatchMapping("/{id}/change-name")
     @ResponseStatus(HttpStatus.OK)
-    public PlacesList changeName(@RequestBody ChangePlacesListNameRequest request) {
+    public PlacesList changeName(@RequestBody String name) {
         PlacesList list = new PlacesList();
         return list;
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@RequestBody Long id) {
+    public String delete(@PathVariable("id") long id) {
         return "List deleted";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/{id}/add")
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestBody AddPlaceToListRequest placesList) {
+    public String add(@PathVariable("id") long id, @RequestBody Venue place) {
         return "Place added";
     }
 
-    @PostMapping("/checkin")
+    @PatchMapping("/{id}/checkin")
     @ResponseStatus(HttpStatus.OK)
-    public PlacesList checkin(@RequestBody CheckinPlaceInPlacesListRequest request) {
+    public PlacesList checkin(@PathVariable("id") long id, @RequestBody long placeId) {
         PlacesList list = new PlacesList();
         return list;
     }
