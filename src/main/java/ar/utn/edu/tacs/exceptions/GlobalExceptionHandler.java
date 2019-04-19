@@ -17,6 +17,9 @@ public class GlobalExceptionHandler {
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
 
+        switch (ex) {
+
+        }
         if (ex instanceof VenuesNotFoundException) {
             HttpStatus status = HttpStatus.NOT_FOUND;
             VenuesNotFoundException unfe = (VenuesNotFoundException) ex;
@@ -32,15 +35,11 @@ public class GlobalExceptionHandler {
 
 
     private ResponseEntity<ApiError> handleVenuesNotFoundException(VenuesNotFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String message;
-        if (ex.getMessage() == null) {
-            message = "No venues were found with the given parameters";
-        } else {
-            message = ex.getMessage();
-        }
+        String message = ex.getMessage() == null ? "No venues were found with the given parameters" : ex.getMessage();
+
         List<String> errors = Collections.singletonList(message);
 
-        return handleExceptionInternal(ex, new ApiError("No venues math with the criteria",errors), headers, status, request);
+        return handleExceptionInternal(ex, new ApiError("No venues math with the criteria", errors), headers, status, request);
     }
 
     private ResponseEntity<ApiError> handleMissingParametersException(MissingParametersException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
