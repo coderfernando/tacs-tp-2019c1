@@ -17,9 +17,6 @@ public class GlobalExceptionHandler {
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
 
-        switch (ex) {
-
-        }
         if (ex instanceof VenuesNotFoundException) {
             HttpStatus status = HttpStatus.NOT_FOUND;
             VenuesNotFoundException unfe = (VenuesNotFoundException) ex;

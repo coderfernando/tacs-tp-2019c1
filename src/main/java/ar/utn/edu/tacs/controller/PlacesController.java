@@ -50,6 +50,7 @@ public class PlacesController {
             @RequestParam(defaultValue = "false") Boolean open,
             @RequestParam(required = false) String section) throws VenuesNotFoundException, MissingParametersException {
 
+        ArrayList<Venue> venues  = new ArrayList<Venue>();
 
         if (radius == null) {
             throw new MissingParametersException(Collections.singletonList("radius"));
@@ -67,7 +68,7 @@ public class PlacesController {
             logger.info("GET -> " + targetUrl.getQuery());
             ExplorePlacesResponse response = new RestTemplate().getForObject(targetUrl, ExplorePlacesResponse.class);
             if (response != null && response.getMeta().getCode() == 200) {
-                ArrayList<Venue> venues = response.getResponse()
+                venues = response.getResponse()
                         .getGroups()
                         .stream()
                         .flatMap(group -> group.getItems().stream())
@@ -87,7 +88,7 @@ public class PlacesController {
             throw new VenuesNotFoundException();
         }
 
-
+        return venues;
     }
 
 
