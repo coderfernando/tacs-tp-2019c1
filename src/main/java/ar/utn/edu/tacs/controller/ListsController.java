@@ -1,6 +1,7 @@
 package ar.utn.edu.tacs.controller;
 
 import ar.utn.edu.tacs.model.PlacesList;
+import ar.utn.edu.tacs.model.UserSession;
 import ar.utn.edu.tacs.model.places.Venue;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,34 +12,37 @@ public class ListsController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public PlacesList create(@RequestBody PlacesList placesList) {
-        return placesList;
+    public UserSession create(@RequestBody PlacesList placesList) {
+        UserSession.getInstance().addList(placesList);
+        return UserSession.getInstance();
     }
 
     @PatchMapping("/{id}/change-name")
     @ResponseStatus(HttpStatus.OK)
-    public PlacesList changeName(@RequestBody String name) {
-        PlacesList list = new PlacesList();
-        return list;
+    public UserSession changeName(@PathVariable("id") long id, @RequestBody String name) {
+        UserSession.getInstance().changeListName(name, id);
+        return UserSession.getInstance();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@PathVariable("id") long id) {
-        return "List deleted";
+    public UserSession delete(@PathVariable("id") long id) {
+        UserSession.getInstance().deleteList(id);
+        return UserSession.getInstance();
     }
 
     @PostMapping("/{id}/add")
     @ResponseStatus(HttpStatus.OK)
-    public String add(@PathVariable("id") long id, @RequestBody Venue place) {
-        return "Place added";
+    public UserSession add(@PathVariable("id") long id, @RequestBody Venue place) {
+        UserSession.getInstance().addPlaceToList(place, id);
+        return UserSession.getInstance();
     }
 
     @PatchMapping("/{id}/checkin")
     @ResponseStatus(HttpStatus.OK)
-    public PlacesList checkin(@PathVariable("id") long id, @RequestBody long placeId) {
-        PlacesList list = new PlacesList();
-        return list;
+    public UserSession checkin(@PathVariable("id") long id, @RequestBody long placeId) {
+        UserSession.getInstance().checkinPlaceInList(placeId, id);
+        return UserSession.getInstance();
     }
 
 }

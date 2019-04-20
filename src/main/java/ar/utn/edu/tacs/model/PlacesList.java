@@ -46,4 +46,12 @@ public class PlacesList {
         this.visitedPlaces = visitedPlaces;
     }
 
+    public void addPlace(Venue place) {
+        places.add(place);
+    }
+
+    public void checkin(Long placeId) {
+        visitedPlaces.add(placeId);
+    }
+
 }
