@@ -9,7 +9,7 @@ public class PlacesList {
     private long id;
     private String name;
     private ArrayList<Venue> places;
-    private ArrayList<Long> visitedPlaces;
+    private ArrayList<String> visitedPlaces;
 
     public PlacesList() { }
 
@@ -38,11 +38,11 @@ public class PlacesList {
         this.places = places;
     }
 
-    public ArrayList<Long> getVisitedPlaces() {
+    public ArrayList<String> getVisitedPlaces() {
         return visitedPlaces;
     }
 
-    public void setVisitedPlaces(ArrayList<Long> visitedPlaces) {
+    public void setVisitedPlaces(ArrayList<String> visitedPlaces) {
         this.visitedPlaces = visitedPlaces;
     }
 
@@ -50,7 +50,7 @@ public class PlacesList {
         places.add(place);
     }
 
-    public void checkin(Long placeId) {
+    public void checkin(String placeId) {
         visitedPlaces.add(placeId);
     }
 

@@ -23,3 +23,9 @@ Descargar el proyecto:
   
 1. `mvn install`  
 2. `mvn spring-boot:run` --> Se iniciará el servidor por defecto escuchando en localhost:8080
+
+ **Integracion con Telegram**
+ 
+ Dirigirse a repositorio:
+ 
+ `https://github.com/mmiguenz/tacs-tp-2019c1-bot-telegram-client`

@@ -40,7 +40,7 @@ public class ListsController {
 
     @PatchMapping("/{id}/checkin")
     @ResponseStatus(HttpStatus.OK)
-    public UserSession checkin(@PathVariable("id") long id, @RequestBody long placeId) {
+    public UserSession checkin(@PathVariable("id") long id, @RequestBody String placeId) {
         UserSession.getInstance().checkinPlaceInList(placeId, id);
         return UserSession.getInstance();
     }
