@@ -1,14 +1,14 @@
-package ar.utn.edu.tacs.controller;
+package ar.edu.utn.tacs.controller;
 
-import ar.utn.edu.tacs.model.User;
+import ar.edu.utn.tacs.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/user")
 public class UserController {
 
-    @PostMapping("/create")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@RequestBody User user) {
         return user;

@@ -1,11 +1,11 @@
-package ar.utn.edu.tacs.controller;
+package ar.edu.utn.tacs.controller;
 
-import ar.utn.edu.tacs.exceptions.MissingParametersException;
-import ar.utn.edu.tacs.exceptions.VenuesNotFoundException;
-import ar.utn.edu.tacs.model.places.ExplorePlacesResponse;
-import ar.utn.edu.tacs.model.places.Item;
-import ar.utn.edu.tacs.model.places.Venue;
-import ar.utn.edu.tacs.repositories.VenuesRepository;
+import ar.edu.utn.tacs.exceptions.MissingParametersException;
+import ar.edu.utn.tacs.exceptions.VenuesNotFoundException;
+import ar.edu.utn.tacs.model.places.ExplorePlacesResponse;
+import ar.edu.utn.tacs.model.places.Item;
+import ar.edu.utn.tacs.model.places.Venue;
+import ar.edu.utn.tacs.repositories.VenuesRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/places")
+@RequestMapping("api/places")
 public class PlacesController {
 
 

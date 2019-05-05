@@ -1,4 +1,4 @@
-package ar.utn.edu.tacs.request;
+package ar.edu.utn.tacs.request;
 
 public class AddPlaceToListRequest {
 

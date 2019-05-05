@@ -1,6 +1,6 @@
-package ar.utn.edu.tacs.model;
+package ar.edu.utn.tacs.model;
 
-import ar.utn.edu.tacs.model.places.Venue;
+import ar.edu.utn.tacs.model.places.Venue;
 
 import java.util.ArrayList;
 

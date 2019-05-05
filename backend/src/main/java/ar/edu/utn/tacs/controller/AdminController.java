@@ -1,4 +1,4 @@
-package ar.utn.edu.tacs.controller;
+package ar.edu.utn.tacs.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

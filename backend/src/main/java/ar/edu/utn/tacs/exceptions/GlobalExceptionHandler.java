@@ -1,4 +1,4 @@
-package ar.utn.edu.tacs.exceptions;
+package ar.edu.utn.tacs.exceptions;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

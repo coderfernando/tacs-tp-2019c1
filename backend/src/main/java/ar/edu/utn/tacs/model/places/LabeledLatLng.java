@@ -1,5 +1,5 @@
 
-package ar.utn.edu.tacs.model.places;
+package ar.edu.utn.tacs.model.places;
 
 import java.util.HashMap;
 import java.util.Map;

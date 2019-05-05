@@ -1,4 +1,4 @@
-package ar.utn.edu.tacs.exceptions;
+package ar.edu.utn.tacs.exceptions;
 
 import java.util.List;
 

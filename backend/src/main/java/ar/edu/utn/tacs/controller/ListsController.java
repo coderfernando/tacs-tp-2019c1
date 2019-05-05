@@ -1,13 +1,13 @@
-package ar.utn.edu.tacs.controller;
+package ar.edu.utn.tacs.controller;
 
-import ar.utn.edu.tacs.model.PlacesList;
-import ar.utn.edu.tacs.model.UserSession;
-import ar.utn.edu.tacs.model.places.Venue;
+import ar.edu.utn.tacs.model.PlacesList;
+import ar.edu.utn.tacs.model.UserSession;
+import ar.edu.utn.tacs.model.places.Venue;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping ("me/lists")
+@RequestMapping ("api/me/lists")
 public class ListsController {
 
     @PostMapping("")
