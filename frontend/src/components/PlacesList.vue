@@ -8,29 +8,23 @@
 
 <script>
 import axios from 'axios'
-var position = null
 export default {
   name: 'PlacesList',
+  props: {position: Object},
   data: function () {
     return {
       venues: [],
       response: [],
-      errors: []
-    }
-  },
-  beforeMount () {
-    position = navigator.geolocation.getCurrentPosition(
-      function (location) {})
-    if (position) {
-      this.getPlaces()
+      errors: [],
+      positionLocal: this.position
     }
   },
   methods: {
-    getPlaces: function () {
+    getPlaces () {
       axios.get('localhost:8080/api/places', {
         params: {
-          lat: position.coords.latitude,
-          lon: position.coords.longitude,
+          lat: this.positionLocal.coords.latitude,
+          lon: this.positionLocal.coords.longitude,
           radius: 1000
         }
       })
@@ -51,6 +45,9 @@ export default {
           this.errors.push(e)
         })
     }
+  },
+  beforeMount () {
+    this.positionLocal ? this.getPlaces() : console.log('Not yet')
   }
 }
 </script>
