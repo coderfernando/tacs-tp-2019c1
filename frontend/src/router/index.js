@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/pages/HomePage'
-import Places from '@/pages/Places'
+import PlacesPage from '@/pages/PlacesPage'
+import ListsPage from '@/pages/ListsPage'
 
 Vue.use(Router)
 
@@ -15,7 +16,12 @@ export default new Router({
     {
       path: '/places',
       name: 'Places',
-      component: Places
+      component: PlacesPage
+    },
+    {
+      path: '/lists',
+      name: 'Lists',
+      component: ListsPage
     }
   ]
 })

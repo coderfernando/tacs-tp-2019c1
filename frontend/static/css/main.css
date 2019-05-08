@@ -2,6 +2,16 @@ body {
 	background: #efefef;
 }
 
+#app {
+	padding: 25px;
+    padding-top: 30px;
+    margin-top: 30px;
+}
+
+#menu {
+	margin-bottom: 20px;
+}
+
 .container {
 	background: #fff;
     border-radius: 25px;

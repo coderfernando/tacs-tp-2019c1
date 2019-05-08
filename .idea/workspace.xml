@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="da06f928-0590-48ff-960b-682386d2d99e" name="Default Changelist" comment="" />
+    <list default="true" id="da06f928-0590-48ff-960b-682386d2d99e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/PlacesList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/PlacesList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/HomePage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Places.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Places.vue" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/backend/target/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -179,6 +183,9 @@
         </subPane>
       </pane>
     </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">

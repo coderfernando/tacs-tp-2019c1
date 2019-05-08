@@ -1,12 +1,21 @@
 <template>
-<div class="places">
-  <h1>PLACES</h1>
-  <places-list></places-list>
-</div>
+  <div class="places">
+    <div class="row">
+      <app-menu></app-menu>
+    </div>
+    <div class="row">
+      <h1>Places</h1>
+    </div>
+    <div class="row">
+      <places-list></places-list>
+    </div>
+  </div>
 </template>
 
 <script>
 import PlacesList from '@/components/PlacesList'
+import AppMenu from '@/components/AppMenu'
+
 export default {
   name: 'Places',
   data: function () {
@@ -17,7 +26,8 @@ export default {
     }
   },
   components: {
-    'places-list': PlacesList
+    'places-list': PlacesList,
+    'app-menu': AppMenu
   }/* ,
   methods: {
     getPosition: function () {
@@ -31,6 +41,3 @@ export default {
   } */
 }
 </script>
-
-<style>
-</style>
