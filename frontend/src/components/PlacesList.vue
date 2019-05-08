@@ -1,9 +1,10 @@
 <template>
-<ol>
+<ul id="placesList">
   <li v-for="venue in venues" v-bind:key="venue.foursquareId">
-      {{venue.latitude}}, {{venue.longitude}},{{venue.title}},{{venue.address}},{{venue.foursquareId}}
+      <h4>{{venue.title}}</h4>
+      <h6>{{venue.address}}</h6>
   </li>
-</ol>
+</ul>
 </template>
 
 <script>
