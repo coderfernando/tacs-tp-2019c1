@@ -8,27 +8,40 @@
 
 <script>
 import axios from 'axios'
+
+export function currentCoordinates () {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => resolve(coords),
+      error => reject(error)
+    )
+  })
+}
+
 export default {
   name: 'PlacesList',
-  props: {position: Object},
+  /* props: {position: Object}, */
   data: function () {
     return {
       venues: [],
       response: [],
-      errors: [],
-      positionLocal: this.position
+      errors: []
+      // ,positionLocal: this.position
     }
   },
   methods: {
-    getPlaces () {
-      axios.get('localhost:8080/api/places', {
+    async getPlaces () {
+      var position = await currentCoordinates()
+      console.log('HOLA', position)
+      axios.get('http://localhost:8080/api/places', {
         params: {
-          lat: this.positionLocal.coords.latitude,
-          lon: this.positionLocal.coords.longitude,
+          lat: position.latitude,
+          lon: position.longitude,
           radius: 1000
         }
       })
         .then(response => {
+          console.log('Response', response)
           this.venues = response.data.map(p => {
             return {
               latitude: p.location.lat,
@@ -42,12 +55,13 @@ export default {
           this.venues.push(...venuesToAdd)
         })
         .catch(e => {
+          console.log('ERROR', e)
           this.errors.push(e)
         })
     }
   },
-  beforeMount () {
-    this.positionLocal ? this.getPlaces() : console.log('Not yet')
+  created () {
+    this.getPlaces()
   }
 }
 </script>

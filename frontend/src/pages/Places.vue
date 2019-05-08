@@ -1,7 +1,7 @@
 <template>
 <div class="places">
   <h1>PLACES</h1>
-  <places-list :position="ubicacion"></places-list>
+  <places-list></places-list>
 </div>
 </template>
 
@@ -13,23 +13,22 @@ export default {
     return {
       response: [],
       errors: [],
-      ubicacion
+      ubicacion: ''
     }
   },
   components: {
     'places-list': PlacesList
-  },
+  }/* ,
   methods: {
     getPosition: function () {
       var ubicacion
       navigator.geolocation.getCurrentPosition(
-        function (location) { ubicacion = location })
-      return ubicacion
+        function (location) { return location })
     }
   },
   created () {
     this.ubicacion = this.getPosition()
-  }
+  } */
 }
 </script>
 

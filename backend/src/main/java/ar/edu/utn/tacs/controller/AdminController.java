@@ -1,10 +1,12 @@
 package ar.edu.utn.tacs.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin
 public class AdminController {
 
 //    Como administrador quiero poder ver los siguientes datos de un usuario:
