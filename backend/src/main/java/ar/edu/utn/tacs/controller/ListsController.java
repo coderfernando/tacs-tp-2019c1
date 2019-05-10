@@ -6,15 +6,28 @@ import ar.edu.utn.tacs.model.places.Venue;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping ("api/me/lists")
 public class ListsController {
 
+    @GetMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<PlacesList> all() {
+        return UserSession.getInstance().getLists();
+    }
+
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSession create(@RequestBody PlacesList placesList) {
-        UserSession.getInstance().addList(placesList);
+    public UserSession create(@RequestBody String name) {
+        PlacesList list = new PlacesList();
+        list.setName(name);
+        list.setId(1);
+        list.setPlaces(new ArrayList<Venue>());
+        list.setVisitedPlaces(new ArrayList<String>());
+        UserSession.getInstance().addList(list);
         return UserSession.getInstance();
     }
 

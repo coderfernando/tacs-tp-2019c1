@@ -21,7 +21,6 @@ export function currentCoordinates () {
 
 export default {
   name: 'PlacesList',
-  /* props: {position: Object}, */
   data: function () {
     return {
       venues: [],
@@ -33,7 +32,7 @@ export default {
   methods: {
     async getPlaces () {
       var position = await currentCoordinates()
-      console.log('HOLA', position)
+      console.log('Requesting places with position', position)
       axios.get('http://localhost:8080/api/places', {
         params: {
           lat: position.latitude,
