@@ -2,6 +2,7 @@ package ar.utn.edu.tacs.model;
 
 import ar.utn.edu.tacs.model.places.Venue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,10 @@ public class UserSession {
     private List<PlacesList> lists;
 
     // -------- Por ahora usamos singleton porque solo manejamos una sesion en memoria --------
-    protected UserSession() {}
+    protected UserSession() {
+        user = new User();
+        lists = new ArrayList<PlacesList>();
+    }
 
     private final static UserSession userSession = new UserSession();
 
