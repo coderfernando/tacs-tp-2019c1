@@ -14,49 +14,39 @@ import java.util.List;
 public class ListsController {
 
     @GetMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
-    public List<PlacesList> all() {
+    public List<PlacesList> getLists(@RequestBody PlacesList placesList) {
         return UserSession.getInstance().getLists();
     }
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSession create(@RequestBody String name) {
-        PlacesList list = new PlacesList();
-        list.setName(name);
-        list.setId(1);
-        list.setPlaces(new ArrayList<Venue>());
-        list.setVisitedPlaces(new ArrayList<String>());
-        UserSession.getInstance().addList(list);
-        return UserSession.getInstance();
+    public PlacesList create(@RequestBody PlacesList placesList) {
+        return UserSession.getInstance().addList(placesList);
     }
 
     @PatchMapping("/{id}/change-name")
     @ResponseStatus(HttpStatus.OK)
-    public UserSession changeName(@PathVariable("id") long id, @RequestBody String name) {
-        UserSession.getInstance().changeListName(name, id);
-        return UserSession.getInstance();
+    public PlacesList changeName(@PathVariable("id") long id, @RequestBody PlacesList placeList) {
+        return UserSession.getInstance().changeListName(placeList.getName(), id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserSession delete(@PathVariable("id") long id) {
-        UserSession.getInstance().deleteList(id);
-        return UserSession.getInstance();
+    public List<PlacesList> delete(@PathVariable("id") long id) {
+        return UserSession.getInstance().deleteList(id);
     }
 
     @PostMapping("/{id}/add")
     @ResponseStatus(HttpStatus.OK)
-    public UserSession add(@PathVariable("id") long id, @RequestBody Venue place) {
-        UserSession.getInstance().addPlaceToList(place, id);
-        return UserSession.getInstance();
+    public PlacesList add(@PathVariable("id") long id, @RequestBody Venue place) {
+        return UserSession.getInstance().addPlaceToList(place, id);
     }
 
     @PatchMapping("/{id}/checkin")
     @ResponseStatus(HttpStatus.OK)
-    public UserSession checkin(@PathVariable("id") long id, @RequestBody String placeId) {
-        UserSession.getInstance().checkinPlaceInList(placeId, id);
-        return UserSession.getInstance();
+    public PlacesList checkin(@PathVariable("id") long listid, @RequestBody Venue place) {
+        return UserSession.getInstance().checkinPlaceInList(place.getId(), listid);
     }
 
 }
+

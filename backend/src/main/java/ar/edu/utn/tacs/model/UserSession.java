@@ -42,49 +42,56 @@ public class UserSession {
         this.lists = lists;
     }
 
-    public void addList(PlacesList list) {
+    public PlacesList addList(PlacesList list) {
+
         lists.add(list);
+        return list;
     }
 
-    public void addPlaceToList(Venue place, Long listId) {
+    public PlacesList addPlaceToList(Venue place, long listId) {
         PlacesList list = lists.stream()
-                               .filter(x -> listId.equals(x.getId()))
-                               .findAny()
-                               .orElse(null);
+                .filter(x -> listId == (x.getId()))
+                .findAny()
+                .orElse(null);
 
         if (list != null) {
             list.addPlace(place);
         }
+        return list;
     }
 
-    public void changeListName(String name, Long listId) {
+    public PlacesList changeListName(String name, long listId) {
         PlacesList list = lists.stream()
-                                .filter(x -> listId.equals(x.getId()))
-                                .findAny()
-                                .orElse(null);
+                .filter(x -> listId == (x.getId()))
+                .findAny()
+                .orElse(null);
 
         if (list != null) {
             list.setName(name);
         }
+        return list;
     }
 
-    public void deleteList(Long listId) {
+    public List<PlacesList>  deleteList(long listId) {
         List<PlacesList> placesLists = this.lists.stream()
-                                                  .filter(x -> !listId.equals(x.getId()))
-                                                  .collect(Collectors.toList());
+                .filter(x -> listId !=(x.getId()))
+                .collect(Collectors.toList());
 
-        setLists(placesLists);
+        this.setLists(placesLists);
+        return placesLists;
     }
 
-    public void checkinPlaceInList(String placeId, Long listId) {
+    public PlacesList checkinPlaceInList(String placeId, long listId) {
         PlacesList list = lists.stream()
-                                .filter(x -> listId.equals(x.getId()))
-                                .findAny()
-                                .orElse(null);
+                .filter(x -> listId == (x.getId()))
+                .findAny()
+                .orElse(null);
 
         if (list != null) {
             list.checkin(placeId);
         }
+
+        return list;
     }
 
 }
