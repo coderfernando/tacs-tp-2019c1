@@ -2,25 +2,19 @@ package ar.edu.utn.tacs.controller;
 
 import ar.edu.utn.tacs.exceptions.MissingParametersException;
 import ar.edu.utn.tacs.exceptions.VenuesNotFoundException;
-import ar.edu.utn.tacs.model.places.ExplorePlacesResponse;
-import ar.edu.utn.tacs.model.places.Item;
-import ar.edu.utn.tacs.model.places.Venue;
+import ar.edu.utn.tacs.model.places.*;
 import ar.edu.utn.tacs.repositories.VenuesRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.Console;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,8 +31,6 @@ public class PlacesController {
     private String clientId = "L2O2R2SIVIE30PG1VVHU4H0OSCXF1ACUFW14CJF0KZRBBAUT";
     private String clientSecret = "NAMIH3VSGZ4XANKTRQLVDLKI2TBCW02Y15MH0F2FSUVLPRJ2";
     private Logger logger = LoggerFactory.getLogger(PlacesController.class);
-
-
 
     @GetMapping("")
     public ArrayList<Venue> getPlaces(
@@ -92,6 +84,70 @@ public class PlacesController {
         return venues;
     }
 
+    @GetMapping("{id}")
+    public Venue getPlaceById(@PathVariable String id) throws VenuesNotFoundException, MissingParametersException {
+
+        Venue venue  = new Venue();
+
+        if (id == null){
+            throw new MissingParametersException(Collections.singletonList("id"));
+        }
+
+        URI targetUrl = getUriForVenueId(id);
+
+        try {
+            logger.info("GET -> " + targetUrl.getQuery());
+            VenueByIdResponse response = new RestTemplate().getForObject(targetUrl, VenueByIdResponse.class);
+            if (response != null && response.getMeta().getCode() == 200) {
+                venue = response.getResponse().getVenue();
+            } else {
+                if (response != null) {
+                    throw new VenuesNotFoundException(response.getMeta().getErrorDetail());
+                } else {
+                    throw new VenuesNotFoundException();
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new VenuesNotFoundException();
+        }
+
+        return venue;
+    }
+
+    @GetMapping("search")
+    public ArrayList<Venue> getPlacesBySearch(@RequestParam(defaultValue = "Pizza") String termino) throws VenuesNotFoundException, MissingParametersException {
+
+        ArrayList<Venue> venues = new ArrayList<Venue>();
+
+        if (termino == null){
+            throw new MissingParametersException(Collections.singletonList("termino"));
+        }
+
+        URI targetUrl = getUriForVenuesSearch(termino);
+
+        try {
+            logger.info("GET -> " + targetUrl.getQuery());
+            VenuesBySearchResponse response = new RestTemplate().getForObject(targetUrl, VenuesBySearchResponse.class);
+            if (response != null && response.getMeta().getCode() == 200) {
+                venues = response.getResponse()
+                        .getVenues();
+            } else {
+                if (response != null) {
+                    throw new VenuesNotFoundException(response.getMeta().getErrorDetail());
+                } else {
+                    throw new VenuesNotFoundException();
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new VenuesNotFoundException();
+        }
+
+        return venues;
+    }
 
     private URI getUriForVenuesExplore(String near, String lat, String lon, String radius, Integer limit, Integer page, Boolean open, String section) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(BASE_URL)
@@ -115,6 +171,30 @@ public class PlacesController {
 
         if (section != null) {
             builder.queryParam("section", section);
+        }
+        return builder.build().encode().toUri();
+    }
+
+    private URI getUriForVenueId(String id) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(BASE_URL)
+                .path("/".concat(id))
+                .queryParam("client_id", clientId)
+                .queryParam("client_secret", clientSecret)
+                .queryParam("v", apiVersion);
+
+        return builder.build().encode().toUri();
+    }
+
+    private URI getUriForVenuesSearch(String termino) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(BASE_URL)
+                .path("/search")
+                .queryParam("client_id", clientId)
+                .queryParam("client_secret", clientSecret)
+                .queryParam("v", apiVersion)
+                .queryParam("near", "Buenos Aires, AR");
+
+        if (termino != null) {
+            builder.queryParam("query", termino);
         }
         return builder.build().encode().toUri();
     }
