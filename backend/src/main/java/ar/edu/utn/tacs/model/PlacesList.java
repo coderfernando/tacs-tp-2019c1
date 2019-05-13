@@ -11,7 +11,10 @@ public class PlacesList {
     private ArrayList<Venue> places;
     private ArrayList<String> visitedPlaces;
 
-    public PlacesList() { }
+    public PlacesList() {
+        this.places = new ArrayList<>();
+        this.visitedPlaces = new ArrayList<>();
+    }
 
     public long getId() {
         return id;
@@ -20,7 +23,6 @@ public class PlacesList {
     public void setId(long id) {
         this.id = id;
     }
-
 
     public String getName() {
         return name;
