@@ -1,0 +1,53 @@
+body {
+	background: #efefef;
+}
+
+#app {
+	padding: 25px;
+    padding-top: 30px;
+    margin-top: 30px;
+    text-align: inherit !important;
+}
+
+#menu {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.container {
+	background: #fff;
+    border-radius: 25px;
+    padding-bottom: 20px;
+    margin-bottom: 100px;
+    min-height: 600px;
+}
+
+#placesList {
+	text-align: left;
+    list-style: none;
+    padding: 0px;
+}
+
+#placesList li {
+	background: #fff;
+    border: 1px #eee solid;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 1px 1px 8px #eee;
+    margin-bottom: 15px;
+}
+
+#placesList li h4 {
+	margin-bottom: 4px;
+}
+
+#placesList li h6 {
+	margin-bottom: 0px;
+}
+
+.listpage .options > .btn {
+	border-radius: 50%;
+    font-weight: bold;
+    padding: .2rem 1.1rem;
+    font-size: 2rem;
+}
