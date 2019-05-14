@@ -18,11 +18,9 @@ public class AdminController {
         User user1 = new User();
         User user2 = new User();
 
-        user1.setId(34234);
         user1.setName("user1");
         user1.setPassword("");
 
-        user2.setId(65657);
         user2.setName("user2");
         user2.setPassword("");
 
@@ -38,10 +36,8 @@ public class AdminController {
         PlacesList list1 = new PlacesList();
         PlacesList list2 = new PlacesList();
 
-        list1.setId(34234);
         list1.setName("list1");
 
-        list2.setId(65657);
         list2.setName("list2");
 
         allLists.add(list1);

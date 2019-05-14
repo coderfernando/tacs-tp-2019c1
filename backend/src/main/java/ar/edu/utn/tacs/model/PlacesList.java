@@ -1,26 +1,26 @@
 package ar.edu.utn.tacs.model;
 
-import ar.edu.utn.tacs.model.places.Venue;
-
+import org.bson.types.ObjectId;
 import java.util.ArrayList;
 
 public class PlacesList {
 
-    private long id;
+    private ObjectId id;
     private String name;
-    private ArrayList<Venue> places;
+    private ArrayList<String> places;
     private ArrayList<String> visitedPlaces;
 
     public PlacesList() {
+        id = new ObjectId();
         this.places = new ArrayList<>();
         this.visitedPlaces = new ArrayList<>();
     }
 
-    public long getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
@@ -32,11 +32,11 @@ public class PlacesList {
         this.name = name;
     }
 
-    public ArrayList<Venue> getPlaces() {
+    public ArrayList<String> getPlaces() {
         return places;
     }
 
-    public void setPlaces(ArrayList<Venue> places) {
+    public void setPlaces(ArrayList<String> places) {
         this.places = places;
     }
 
@@ -48,12 +48,12 @@ public class PlacesList {
         this.visitedPlaces = visitedPlaces;
     }
 
-    public void addPlace(Venue place) {
+    public void addPlace(String place) {
         places.add(place);
     }
 
-    public void checkin(String placeId) {
-        visitedPlaces.add(placeId);
+    public void checkin(String place) {
+        visitedPlaces.add(place);
     }
 
 }
