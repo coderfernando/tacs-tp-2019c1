@@ -1,28 +1,22 @@
 package ar.edu.utn.tacs.model;
 
-import javax.validation.constraints.*;
-import org.springframework.data.annotation.Id;
+import org.bson.types.ObjectId;
 
 public class User {
 
-    @Id
-    private long id;
-
-    @NotNull
-    @NotEmpty
+    private ObjectId id;
     private String name;
-
-    @NotNull
-    @NotEmpty
     private String password;
 
-    public User() { }
+    public User() {
+        id = new ObjectId();
+    }
 
-    public void setId(long id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
-    public long getId() { return this.id; }
+    public ObjectId getId() { return this.id; }
 
     public String getName() { return this.name; }
 

@@ -1,6 +1,6 @@
 package ar.edu.utn.tacs.model;
 
-import ar.edu.utn.tacs.model.places.Venue;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,6 @@ public class UserSession {
     protected UserSession() {
         this.lists = new ArrayList<PlacesList>();
         User mockUser = new User();
-        mockUser.setId(1);
         mockUser.setName("Manolo");
         mockUser.setPassword("password");
         this.user = mockUser;
@@ -43,12 +42,11 @@ public class UserSession {
     }
 
     public PlacesList addList(PlacesList list) {
-
         lists.add(list);
         return list;
     }
 
-    public PlacesList addPlaceToList(Venue place, long listId) {
+    public PlacesList addPlaceToList(String place, ObjectId listId) {
         PlacesList list = lists.stream()
                 .filter(x -> listId == (x.getId()))
                 .findAny()
@@ -60,7 +58,7 @@ public class UserSession {
         return list;
     }
 
-    public PlacesList changeListName(String name, long listId) {
+    public PlacesList changeListName(String name, ObjectId listId) {
         PlacesList list = lists.stream()
                 .filter(x -> listId == (x.getId()))
                 .findAny()
@@ -72,7 +70,7 @@ public class UserSession {
         return list;
     }
 
-    public List<PlacesList>  deleteList(long listId) {
+    public List<PlacesList>  deleteList(ObjectId listId) {
         List<PlacesList> placesLists = this.lists.stream()
                 .filter(x -> listId !=(x.getId()))
                 .collect(Collectors.toList());
@@ -81,7 +79,7 @@ public class UserSession {
         return placesLists;
     }
 
-    public PlacesList checkinPlaceInList(String placeId, long listId) {
+    public PlacesList checkinPlaceInList(String placeId, ObjectId listId) {
         PlacesList list = lists.stream()
                 .filter(x -> listId == (x.getId()))
                 .findAny()

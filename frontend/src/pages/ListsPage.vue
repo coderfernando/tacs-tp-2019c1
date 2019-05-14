@@ -11,7 +11,7 @@
               <form>
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" class="form-control" v-model="newListName" id="name">
+                  <input type="text" class="form-control" v-model="newListName" id="newListName">
                 </div>
               </form>
             </div>
@@ -31,14 +31,18 @@ import axios from 'axios'
 
 export default {
   name: 'ListsPage',
-  data: function () {
+  data () {
     return {
-      newListName: ''
+      newListName: '',
+      lists:[]
     }
   },
   methods: {
     showNewListModal: function () {
       this.$refs['NewListModal'].show()
+    },
+    async getPlaces () {
+       axios.get('http://localhost:8080/api/me/lists')
     },
     closeNewListModal: function () {
       this.$refs['NewListModal'].hide()
@@ -46,7 +50,7 @@ export default {
     saveNewList: function () {
       var self = this
       axios.post('http://localhost:8080/api/me/lists', {
-        name: this.newListName
+          name: this.newListName
       }).then(function (response) {
         console.log(response)
         self.closeNewListModal()
