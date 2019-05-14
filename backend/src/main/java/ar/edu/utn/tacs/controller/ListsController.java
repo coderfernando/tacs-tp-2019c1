@@ -4,6 +4,8 @@ import ar.edu.utn.tacs.model.PlacesList;
 import ar.edu.utn.tacs.model.UserSession;
 import ar.edu.utn.tacs.model.places.Venue;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,8 @@ import java.util.List;
 @RequestMapping ("api/me/lists")
 public class ListsController {
 
+    private Logger logger = LoggerFactory.getLogger(PlacesController.class);
+
     @GetMapping("")
     public List<PlacesList> getLists() {
         return UserSession.getInstance().getLists();
@@ -22,7 +26,8 @@ public class ListsController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public PlacesList create(@RequestBody PlacesList placesList) {
-        return UserSession.getInstance().addList(placesList);
+        logger.info("Request to create List name:" + placesList.getName());
+        return UserSession.getInstance().addList(new PlacesList(placesList.getName()));
     }
 
     @PatchMapping("/{id}/change-name")

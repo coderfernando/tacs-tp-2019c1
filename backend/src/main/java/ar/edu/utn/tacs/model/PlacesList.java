@@ -16,6 +16,13 @@ public class PlacesList {
         this.visitedPlaces = new ArrayList<>();
     }
 
+    public PlacesList(String name) {
+        id = new ObjectId();
+        this.name = name;
+        this.places = new ArrayList<>();
+        this.visitedPlaces = new ArrayList<>();
+    }
+
     public ObjectId getId() {
         return id;
     }
