@@ -1,5 +1,5 @@
 <template>
-<ul id="placesList" class="col-sm">
+<ul id="placesList" class="col-sm items-list">
   <li v-for="venue in venues" v-bind:key="venue.foursquareId">
       <h4>{{venue.title}}</h4>
       <h6>{{venue.address}}</h6>

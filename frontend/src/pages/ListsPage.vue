@@ -22,6 +22,14 @@
           </b-modal>
         </div>
     </div>
+    <div class="row">
+      <ul id="listsList" class="col-sm items-list">
+        <li v-for="l in lists" v-bind:key="l.id.machineIdentifier">
+            <h4>{{l.name}}</h4>
+            <a>Eliminar</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 <script>
@@ -34,7 +42,7 @@ export default {
   data () {
     return {
       newListName: '',
-      lists:[]
+      lists: []
     }
   },
   methods: {
@@ -42,7 +50,7 @@ export default {
       this.$refs['NewListModal'].show()
     },
     async getPlaces () {
-       axios.get('http://localhost:8080/api/me/lists')
+      axios.get('http://localhost:8080/api/me/lists')
     },
     closeNewListModal: function () {
       this.$refs['NewListModal'].hide()
@@ -50,15 +58,29 @@ export default {
     saveNewList: function () {
       var self = this
       axios.post('http://localhost:8080/api/me/lists', {
-          name: this.newListName
+        name: this.newListName
       }).then(function (response) {
         console.log(response)
         self.closeNewListModal()
+        self.getLists()
+      }).catch(function (error) {
+        console.log(error)
+        alert('Ocurrió un error. Intente de nuevo por favor.')
+      })
+    },
+    getLists: function () {
+      var self = this
+      axios.get('http://localhost:8080/api/me/lists').then(function (response) {
+        console.log(response)
+        self.lists = response.data
       }).catch(function (error) {
         console.log(error)
         alert('Ocurrió un error. Intente de nuevo por favor.')
       })
     }
+  },
+  created () {
+    this.getLists()
   },
   components: {
     'app-menu': AppMenu

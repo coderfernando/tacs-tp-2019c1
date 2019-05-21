@@ -84,7 +84,7 @@ public class PlacesController {
         return venues;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Venue getPlaceById(@PathVariable String id) throws VenuesNotFoundException, MissingParametersException {
 
         Venue venue  = new Venue();
@@ -116,7 +116,7 @@ public class PlacesController {
         return venue;
     }
 
-    @GetMapping("search")
+    @GetMapping("/search")
     public ArrayList<Venue> getPlacesBySearch(@RequestParam(defaultValue = "Pizza") String termino) throws VenuesNotFoundException, MissingParametersException {
 
         ArrayList<Venue> venues = new ArrayList<Venue>();

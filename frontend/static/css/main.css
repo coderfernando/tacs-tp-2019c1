@@ -2,10 +2,15 @@ body {
 	background: #efefef;
 }
 
+.logo {
+	height: 35px;
+    margin-bottom: 15px;
+}
+
 #app {
 	padding: 25px;
-    padding-top: 30px;
-    margin-top: 30px;
+    padding-top: 20px;
+    margin-top: 35px !important;
     text-align: inherit !important;
 }
 
@@ -22,13 +27,13 @@ body {
     min-height: 600px;
 }
 
-#placesList {
+.items-list {
 	text-align: left;
     list-style: none;
     padding: 0px;
 }
 
-#placesList li {
+.items-list li {
 	background: #fff;
     border: 1px #eee solid;
     border-radius: 5px;
@@ -37,11 +42,11 @@ body {
     margin-bottom: 15px;
 }
 
-#placesList li h4 {
+.items-list li h4 {
 	margin-bottom: 4px;
 }
 
-#placesList li h6 {
+.items-list li h6 {
 	margin-bottom: 0px;
 }
 
@@ -50,4 +55,19 @@ body {
     font-weight: bold;
     padding: .2rem 1.1rem;
     font-size: 2rem;
+}
+
+#listsList {
+	margin-top: 20px;
+}
+
+#listsList li h4 {
+	display: inline;
+}
+
+#listsList li a {
+	text-decoration: none;
+    color: #007bff;
+    cursor: pointer;
+    float: right;
 }
