@@ -3,7 +3,10 @@
     <div class="row">
       <app-menu></app-menu>
     </div>
-    <div class="row">
+    <div v-if="loading" class="row">
+      <img class="loading-image" src="/static/img/loading.gif" />
+    </div>
+    <div v-if="!loading" class="row">
        <div class="col-sm options">
           <b-button id="new-list-btn" @click="showNewListModal" class="btn-l float-right" variant="primary">+</b-button>
           <b-modal ref="NewListModal" hide-footer title="New List">
@@ -26,7 +29,7 @@
       <ul id="listsList" class="col-sm items-list">
         <li v-for="l in lists" v-bind:key="l.id.machineIdentifier">
             <h4>{{l.name}}</h4>
-            <a>Eliminar</a>
+            <a v-on:click="deleteList(l.id.machineIdentifier)">Eliminar</a>
         </li>
       </ul>
     </div>
@@ -42,7 +45,8 @@ export default {
   data () {
     return {
       newListName: '',
-      lists: []
+      lists: [],
+      loading: true
     }
   },
   methods: {
@@ -70,9 +74,23 @@ export default {
     },
     getLists: function () {
       var self = this
+      self.loading = true
       axios.get('http://localhost:8080/api/me/lists').then(function (response) {
         console.log(response)
         self.lists = response.data
+        self.loading = false
+      }).catch(function (error) {
+        self.loading = false
+        console.log(error)
+        alert('Ocurrió un error. Intente de nuevo por favor.')
+      })
+    },
+    deleteList: function (id) {
+      var self = this
+      console.log('http://localhost:8080/api/me/lists/' + id)
+      axios.delete('http://localhost:8080/api/me/lists/' + id).then(function (response) {
+        console.log(response)
+        self.getLists()
       }).catch(function (error) {
         console.log(error)
         alert('Ocurrió un error. Intente de nuevo por favor.')

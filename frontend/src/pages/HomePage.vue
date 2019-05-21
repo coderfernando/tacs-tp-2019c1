@@ -3,8 +3,19 @@
     <div class="row">
       <app-menu></app-menu>
     </div>
-    <div class="row">
-      <h1>Home</h1>
+    <div id="home-messages" class="row">
+      <div class="col-sm-12">
+        <h1>Welcome to Placist!</h1>
+      </div>
+      <div class="col-sm-12">
+        <h3>Discover new places.</h3>
+      </div>
+      <div class="col-sm-12">
+        <h3>Create ToGo lists.</h3>
+      </div>
+      <div class="col-sm-12">
+        <h3>Check your visits.</h3>
+      </div>
     </div>
   </div>
 </template>

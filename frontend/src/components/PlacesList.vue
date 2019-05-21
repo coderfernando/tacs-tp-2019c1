@@ -1,10 +1,15 @@
 <template>
-<ul id="placesList" class="col-sm items-list">
-  <li v-for="venue in venues" v-bind:key="venue.foursquareId">
-      <h4>{{venue.title}}</h4>
-      <h6>{{venue.address}}</h6>
-  </li>
-</ul>
+<div id="placesListComponent">
+  <div v-if="loading" class="row">
+    <img class="loading-image" src="/static/img/loading.gif" />
+  </div>
+  <ul v-if="!loading" id="placesList" class="col-sm items-list">
+    <li v-for="venue in venues" v-bind:key="venue.foursquareId">
+        <h4>{{venue.title}}</h4>
+        <h6>{{venue.address}}</h6>
+    </li>
+  </ul>
+</div>
 </template>
 
 <script>
@@ -25,12 +30,14 @@ export default {
     return {
       venues: [],
       response: [],
-      errors: []
+      errors: [],
+      loading: true
       // ,positionLocal: this.position
     }
   },
   methods: {
     async getPlaces () {
+      this.loading = true
       var position = await currentCoordinates()
       console.log('Requesting places with position', position)
       axios.get('http://localhost:8080/api/places', {
@@ -42,6 +49,7 @@ export default {
       })
         .then(response => {
           console.log('Response', response)
+          this.loading = false
           this.venues = response.data.map(p => {
             return {
               latitude: p.location.lat,
@@ -55,6 +63,7 @@ export default {
           this.venues.push(...venuesToAdd)
         })
         .catch(e => {
+          this.loading = false
           console.log('ERROR', e)
           this.errors.push(e)
         })

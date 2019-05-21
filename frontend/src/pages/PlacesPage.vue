@@ -4,9 +4,6 @@
       <app-menu></app-menu>
     </div>
     <div class="row">
-      <h1>Places</h1>
-    </div>
-    <div class="row">
       <places-list></places-list>
     </div>
   </div>

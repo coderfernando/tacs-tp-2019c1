@@ -71,3 +71,19 @@ body {
     cursor: pointer;
     float: right;
 }
+
+.loading-image {
+	width: 100px;
+    height: 100px;
+    margin: auto;
+    margin-top: 50px;
+}
+
+#placesListComponent {
+	width: 100%;
+}
+
+#home-messages {
+	text-align: center;
+	margin-top: 45px;
+}
