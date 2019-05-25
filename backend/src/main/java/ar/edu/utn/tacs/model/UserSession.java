@@ -46,9 +46,9 @@ public class UserSession {
         return list;
     }
 
-    public PlacesList addPlaceToList(String place, ObjectId listId) {
+    public PlacesList addPlaceToList(String place, String listId) {
         PlacesList list = lists.stream()
-                .filter(x -> listId == (x.getId()))
+                .filter(x -> listId.equals(x.getId()))
                 .findAny()
                 .orElse(null);
 
@@ -58,9 +58,9 @@ public class UserSession {
         return list;
     }
 
-    public PlacesList changeListName(String name, ObjectId listId) {
+    public PlacesList changeListName(String name, String listId) {
         PlacesList list = lists.stream()
-                .filter(x -> listId == (x.getId()))
+                .filter(x -> listId.equals(x.getId()))
                 .findAny()
                 .orElse(null);
 
@@ -70,18 +70,18 @@ public class UserSession {
         return list;
     }
 
-    public List<PlacesList>  deleteList(ObjectId listId) {
+    public List<PlacesList>  deleteList(String listId) {
         List<PlacesList> placesLists = this.lists.stream()
-                .filter(x -> listId !=(x.getId()))
+                .filter(x -> !listId.equals(x.getId()))
                 .collect(Collectors.toList());
 
         this.setLists(placesLists);
         return placesLists;
     }
 
-    public PlacesList checkinPlaceInList(String placeId, ObjectId listId) {
+    public PlacesList checkinPlaceInList(String placeId, String listId) {
         PlacesList list = lists.stream()
-                .filter(x -> listId == (x.getId()))
+                .filter(x -> listId.equals(x.getId()))
                 .findAny()
                 .orElse(null);
 

@@ -2,32 +2,26 @@ package ar.edu.utn.tacs.model;
 
 import org.bson.types.ObjectId;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class PlacesList {
 
-    private ObjectId id;
+    private String id;
     private String name;
     private ArrayList<String> places;
     private ArrayList<String> visitedPlaces;
 
     public PlacesList() {
-        id = new ObjectId();
+        id = UUID.randomUUID().toString();
         this.places = new ArrayList<>();
         this.visitedPlaces = new ArrayList<>();
     }
 
-    public PlacesList(String name) {
-        id = new ObjectId();
-        this.name = name;
-        this.places = new ArrayList<>();
-        this.visitedPlaces = new ArrayList<>();
-    }
-
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

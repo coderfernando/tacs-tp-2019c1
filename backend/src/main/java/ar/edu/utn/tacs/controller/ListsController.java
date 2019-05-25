@@ -27,30 +27,30 @@ public class ListsController {
     @ResponseStatus(HttpStatus.CREATED)
     public PlacesList create(@RequestBody PlacesList placesList) {
         logger.info("Request to create List name:" + placesList.getName());
-        return UserSession.getInstance().addList(new PlacesList(placesList.getName()));
+        return UserSession.getInstance().addList(placesList);
     }
 
-    @PatchMapping("/{id}/change-name")
+    @PatchMapping("/{id}/change-name/{name}")
     @ResponseStatus(HttpStatus.OK)
-    public PlacesList changeName(@PathVariable("id") ObjectId id, @RequestBody PlacesList placeList) {
-        return UserSession.getInstance().changeListName(placeList.getName(), id);
+    public PlacesList changeName(@PathVariable("id") String id, @PathVariable("name") String name) {
+        return UserSession.getInstance().changeListName(name, id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<PlacesList> delete(@PathVariable("id") ObjectId id) {
+    public List<PlacesList> delete(@PathVariable("id") String id) {
         return UserSession.getInstance().deleteList(id);
     }
 
     @PostMapping("/{id}/add")
     @ResponseStatus(HttpStatus.OK)
-    public PlacesList add(@PathVariable("id") ObjectId id, @RequestBody String place) {
+    public PlacesList add(@PathVariable("id") String id, @RequestBody String place) {
         return UserSession.getInstance().addPlaceToList(place, id);
     }
 
     @PatchMapping("/{id}/checkin")
     @ResponseStatus(HttpStatus.OK)
-    public PlacesList checkin(@PathVariable("id") ObjectId listid, @RequestBody Venue place) {
+    public PlacesList checkin(@PathVariable("id") String listid, @RequestBody Venue place) {
         return UserSession.getInstance().checkinPlaceInList(place.getId(), listid);
     }
 
