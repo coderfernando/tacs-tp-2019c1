@@ -44,14 +44,14 @@ public class ListsController {
 
     @PostMapping("/{id}/add")
     @ResponseStatus(HttpStatus.OK)
-    public PlacesList add(@PathVariable("id") String id, @RequestBody String place) {
+    public PlacesList add(@PathVariable("id") String id, @RequestBody Venue place) {
         return UserSession.getInstance().addPlaceToList(place, id);
     }
 
-    @PatchMapping("/{id}/checkin")
+    @PatchMapping("/{id}/checkin/{venueId}")
     @ResponseStatus(HttpStatus.OK)
-    public PlacesList checkin(@PathVariable("id") String listid, @RequestBody Venue place) {
-        return UserSession.getInstance().checkinPlaceInList(place.getId(), listid);
+    public PlacesList checkin(@PathVariable("id") String listId, @PathVariable("venueId") String venueId) {
+        return UserSession.getInstance().checkinPlaceInList(venueId, listId);
     }
 
 }

@@ -17,6 +17,7 @@ body {
 #menu {
 	margin-bottom: 20px;
 	text-align: center;
+	padding-right: 0px;
 }
 
 .container {
@@ -48,6 +49,10 @@ body {
 
 .items-list li h6 {
 	margin-bottom: 0px;
+}
+
+.listpage .options {
+	padding-right: 0px;
 }
 
 .listpage .options > .btn {
@@ -85,11 +90,56 @@ body {
     margin-top: 50px;
 }
 
-#placesListComponent {
-	width: 100%;
-}
-
 #home-messages {
 	text-align: center;
 	margin-top: 45px;
+}
+
+#placesList li {
+	display: table;
+    width: 100%;
+}
+
+#placesList li > div {
+	display: table-cell;
+}
+
+#placesList li a {
+    display: table-cell;
+    width: 100px;
+    text-align: right;
+    vertical-align: middle;
+    text-decoration: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+#addToListModalLists {
+    margin-left: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+#addToListModalLists li {
+	display: table;
+	width: 100%;
+}
+
+#addToListModalLists li > span {
+	display: table-cell;
+    font-weight: 600;
+}
+
+#addToListModalLists li > a {
+	text-decoration: none;
+    color: #007bff;
+    cursor: pointer;
+    display: table-cell;
+    width: 120px;
+    vertical-align: middle;
+}
+
+#addToListModalLists li a.added {
+    color: #30c321;
+    cursor: default;
 }

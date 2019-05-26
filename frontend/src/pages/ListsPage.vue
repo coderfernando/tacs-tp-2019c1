@@ -17,6 +17,8 @@
           <li v-for="l in lists" v-bind:key="l.id">
               <h4>{{l.name}} <img src="/static/img/edit-icon.png" v-on:click="showChangeNameModal(l)"></h4>
               <a v-on:click="deleteList(l.id)">Delete</a>
+              <div v-if="l.places.length > 0"><b>Places</b></div>
+              <div v-for="p in l.places" v-bind:key="p.id">- {{p.title}}</div>
           </li>
         </ul>
       </div>
@@ -86,7 +88,7 @@ export default {
     },
     saveNewList: function () {
       var self = this
-      axios.post('http://localhost:8080/api/me/lists', {
+      axios.post('/api/me/lists', {
         name: this.newListName
       }).then(function (response) {
         self.closeNewListModal()
@@ -98,7 +100,7 @@ export default {
     },
     changeListName: function () {
       var self = this
-      axios.patch('http://localhost:8080/api/me/lists/' + this.selectedList.id + '/change-name/' + this.newListName, {
+      axios.patch('/api/me/lists/' + this.selectedList.id + '/change-name/' + this.newListName, {
       }).then(function (response) {
         self.closeChangeListNameModal()
         self.getLists()
@@ -110,7 +112,7 @@ export default {
     getLists: function () {
       var self = this
       self.loading = true
-      axios.get('http://localhost:8080/api/me/lists').then(function (response) {
+      axios.get('/api/me/lists').then(function (response) {
         console.log(response.data)
         self.lists = response.data
         self.loading = false
@@ -122,7 +124,7 @@ export default {
     },
     deleteList: function (id) {
       var self = this
-      axios.delete('http://localhost:8080/api/me/lists/' + id).then(function (response) {
+      axios.delete('/api/me/lists/' + id).then(function (response) {
         console.log(response)
         self.getLists()
       }).catch(function (error) {

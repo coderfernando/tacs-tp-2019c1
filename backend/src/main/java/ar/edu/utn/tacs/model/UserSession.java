@@ -1,5 +1,6 @@
 package ar.edu.utn.tacs.model;
 
+import ar.edu.utn.tacs.model.places.Venue;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class UserSession {
         return list;
     }
 
-    public PlacesList addPlaceToList(String place, String listId) {
+    public PlacesList addPlaceToList(Venue place, String listId) {
         PlacesList list = lists.stream()
                 .filter(x -> listId.equals(x.getId()))
                 .findAny()
