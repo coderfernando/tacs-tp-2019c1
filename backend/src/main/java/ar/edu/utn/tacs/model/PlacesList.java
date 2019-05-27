@@ -1,33 +1,28 @@
 package ar.edu.utn.tacs.model;
 
+import ar.edu.utn.tacs.model.places.Venue;
 import org.bson.types.ObjectId;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class PlacesList {
 
-    private ObjectId id;
+    private String id;
     private String name;
-    private ArrayList<String> places;
-    private ArrayList<String> visitedPlaces;
+    private ArrayList<Venue> places;
+    private ArrayList<String> visitedPlacesIds;
 
     public PlacesList() {
-        id = new ObjectId();
-        this.places = new ArrayList<>();
-        this.visitedPlaces = new ArrayList<>();
+        id = UUID.randomUUID().toString();
+        this.places = new ArrayList<Venue>();
+        this.visitedPlacesIds = new ArrayList<String>();
     }
 
-    public PlacesList(String name) {
-        id = new ObjectId();
-        this.name = name;
-        this.places = new ArrayList<>();
-        this.visitedPlaces = new ArrayList<>();
-    }
-
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -39,28 +34,28 @@ public class PlacesList {
         this.name = name;
     }
 
-    public ArrayList<String> getPlaces() {
+    public ArrayList<Venue> getPlaces() {
         return places;
     }
 
-    public void setPlaces(ArrayList<String> places) {
+    public void setPlaces(ArrayList<Venue> places) {
         this.places = places;
     }
 
-    public ArrayList<String> getVisitedPlaces() {
-        return visitedPlaces;
+    public ArrayList<String> getVisitedPlacesIds() {
+        return visitedPlacesIds;
     }
 
-    public void setVisitedPlaces(ArrayList<String> visitedPlaces) {
-        this.visitedPlaces = visitedPlaces;
+    public void setVisitedPlacesIds(ArrayList<String> visitedPlacesIds) {
+        this.visitedPlacesIds = visitedPlacesIds;
     }
 
-    public void addPlace(String place) {
+    public void addPlace(Venue place) {
         places.add(place);
     }
 
-    public void checkin(String place) {
-        visitedPlaces.add(place);
+    public void checkin(String placeId) {
+        visitedPlacesIds.add(placeId);
     }
 
 }

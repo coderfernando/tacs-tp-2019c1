@@ -2,16 +2,22 @@ body {
 	background: #efefef;
 }
 
+.logo {
+	height: 35px;
+    margin-bottom: 15px;
+}
+
 #app {
 	padding: 25px;
-    padding-top: 30px;
-    margin-top: 30px;
+    padding-top: 20px;
+    margin-top: 35px !important;
     text-align: inherit !important;
 }
 
 #menu {
 	margin-bottom: 20px;
 	text-align: center;
+	padding-right: 0px;
 }
 
 .container {
@@ -22,13 +28,13 @@ body {
     min-height: 600px;
 }
 
-#placesList {
+.items-list {
 	text-align: left;
     list-style: none;
     padding: 0px;
 }
 
-#placesList li {
+.items-list li {
 	background: #fff;
     border: 1px #eee solid;
     border-radius: 5px;
@@ -37,12 +43,16 @@ body {
     margin-bottom: 15px;
 }
 
-#placesList li h4 {
+.items-list li h4 {
 	margin-bottom: 4px;
 }
 
-#placesList li h6 {
+.items-list li h6 {
 	margin-bottom: 0px;
+}
+
+.listpage .options {
+	padding-right: 0px;
 }
 
 .listpage .options > .btn {
@@ -50,4 +60,86 @@ body {
     font-weight: bold;
     padding: .2rem 1.1rem;
     font-size: 2rem;
+}
+
+#listsList {
+	margin-top: 20px;
+}
+
+#listsList li h4 {
+	display: inline;
+}
+
+#listsList li h4 img {
+   	height: 20px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+#listsList li a {
+	text-decoration: none;
+    color: #007bff;
+    cursor: pointer;
+    float: right;
+}
+
+.loading-image {
+	width: 100px;
+    height: 100px;
+    margin: auto;
+    margin-top: 50px;
+}
+
+#home-messages {
+	text-align: center;
+	margin-top: 45px;
+}
+
+#placesList li {
+	display: table;
+    width: 100%;
+}
+
+#placesList li > div {
+	display: table-cell;
+}
+
+#placesList li a {
+    display: table-cell;
+    width: 100px;
+    text-align: right;
+    vertical-align: middle;
+    text-decoration: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+#addToListModalLists {
+    margin-left: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+#addToListModalLists li {
+	display: table;
+	width: 100%;
+}
+
+#addToListModalLists li > span {
+	display: table-cell;
+    font-weight: 600;
+}
+
+#addToListModalLists li > a {
+	text-decoration: none;
+    color: #007bff;
+    cursor: pointer;
+    display: table-cell;
+    width: 120px;
+    vertical-align: middle;
+}
+
+#addToListModalLists li a.added {
+    color: #30c321;
+    cursor: default;
 }
