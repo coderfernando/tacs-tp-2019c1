@@ -2,7 +2,7 @@ package ar.edu.utn.tacs.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.*;
-import ar.edu.utn.tacs.model.User;
+import ar.edu.utn.tacs.model.Users;
 import ar.edu.utn.tacs.model.PlacesList;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,10 @@ import java.util.List;
 public class AdminController {
 
     @GetMapping("users/all")
-    public List<User> GetUsers() {
-        List<User> allUsers = new ArrayList<>();
-        User user1 = new User();
-        User user2 = new User();
+    public List<Users> GetUsers() {
+        List<Users> allUsers = new ArrayList<>();
+        Users user1 = new Users();
+        Users user2 = new Users();
 
         user1.setName("user1");
         user1.setPassword("");

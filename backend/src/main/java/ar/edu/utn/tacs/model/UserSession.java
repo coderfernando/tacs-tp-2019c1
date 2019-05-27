@@ -1,6 +1,6 @@
 package ar.edu.utn.tacs.model;
 
-import org.bson.types.ObjectId;
+import ar.edu.utn.tacs.model.places.Venue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,13 +8,13 @@ import java.util.stream.Collectors;
 
 public class UserSession {
 
-    private User user;
+    private Users user;
     private List<PlacesList> lists;
 
     // -------- Por ahora usamos singleton porque solo manejamos una sesion en memoria --------
     protected UserSession() {
         this.lists = new ArrayList<PlacesList>();
-        User mockUser = new User();
+        Users mockUser = new Users();
         mockUser.setName("Manolo");
         mockUser.setPassword("password");
         this.user = mockUser;
@@ -25,11 +25,11 @@ public class UserSession {
     public static UserSession getInstance() { return userSession; }
     // ----------------
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 
@@ -46,9 +46,9 @@ public class UserSession {
         return list;
     }
 
-    public PlacesList addPlaceToList(String place, ObjectId listId) {
+    public PlacesList addPlaceToList(Venue place, String listId) {
         PlacesList list = lists.stream()
-                .filter(x -> listId == (x.getId()))
+                .filter(x -> listId.equals(x.getId()))
                 .findAny()
                 .orElse(null);
 
@@ -58,9 +58,9 @@ public class UserSession {
         return list;
     }
 
-    public PlacesList changeListName(String name, ObjectId listId) {
+    public PlacesList changeListName(String name, String listId) {
         PlacesList list = lists.stream()
-                .filter(x -> listId == (x.getId()))
+                .filter(x -> listId.equals(x.getId()))
                 .findAny()
                 .orElse(null);
 
@@ -70,18 +70,18 @@ public class UserSession {
         return list;
     }
 
-    public List<PlacesList>  deleteList(ObjectId listId) {
+    public List<PlacesList>  deleteList(String listId) {
         List<PlacesList> placesLists = this.lists.stream()
-                .filter(x -> listId !=(x.getId()))
+                .filter(x -> !listId.equals(x.getId()))
                 .collect(Collectors.toList());
 
         this.setLists(placesLists);
         return placesLists;
     }
 
-    public PlacesList checkinPlaceInList(String placeId, ObjectId listId) {
+    public PlacesList checkinPlaceInList(String placeId, String listId) {
         PlacesList list = lists.stream()
-                .filter(x -> listId == (x.getId()))
+                .filter(x -> listId.equals(x.getId()))
                 .findAny()
                 .orElse(null);
 
