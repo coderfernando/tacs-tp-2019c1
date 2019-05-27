@@ -9,6 +9,8 @@ yarn-error.log*
 selenium-debug.log
 /node_modules/
 /target/
+*/target/*
+*/target/**
 
 # Editor directories and files
 .idea
