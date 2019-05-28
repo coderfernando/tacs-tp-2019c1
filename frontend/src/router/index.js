@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import HomePage from '@/pages/HomePage'
 import PlacesPage from '@/pages/PlacesPage'
 import ListsPage from '@/pages/ListsPage'
+import SignUp from '@/pages/SignUpPage'
+import SignIn from '@/pages/SignInPage'
 import BootstrapVue from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -28,6 +30,16 @@ export default new Router({
       path: '/lists',
       name: 'Lists',
       component: ListsPage
+    },
+    {
+      path: '/signup',
+      name: 'SignUp',
+      component: SignUp
+    },
+    {
+      path: '/signin',
+      name: 'SignIn',
+      component: SignIn
     }
   ]
 })
