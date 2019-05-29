@@ -3,7 +3,6 @@ package ar.edu.utn.tacs.controller;
 import ar.edu.utn.tacs.model.PlacesList;
 import ar.edu.utn.tacs.model.UserSession;
 import ar.edu.utn.tacs.model.places.Venue;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

@@ -7,3 +7,4 @@ yarn.lock
 target
 node_modules
 dist
+.vscode

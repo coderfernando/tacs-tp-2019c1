@@ -117,7 +117,13 @@ public class PlacesController {
     }
 
     @GetMapping("/search")
-    public ArrayList<Venue> getPlacesBySearch(@RequestParam(defaultValue = "Pizza") String termino) throws VenuesNotFoundException, MissingParametersException {
+    public ArrayList<Venue> getPlacesBySearch(
+        @RequestParam(required = false) String termino,
+        @RequestParam(required = false) String near,
+        @RequestParam(required = false) String lat,
+        @RequestParam(required = false) String lon,
+        @RequestParam(required = false) String radius)
+        throws VenuesNotFoundException, MissingParametersException {
 
         ArrayList<Venue> venues = new ArrayList<Venue>();
 
@@ -125,7 +131,7 @@ public class PlacesController {
             throw new MissingParametersException(Collections.singletonList("termino"));
         }
 
-        URI targetUrl = getUriForVenuesSearch(termino);
+        URI targetUrl = getUriForVenuesSearch(termino, near, lat, lon, radius);
 
         try {
             logger.info("GET -> " + targetUrl.getQuery());
@@ -162,7 +168,7 @@ public class PlacesController {
         }
 
         if (near != null) {
-            builder.queryParam("near", near);
+            builder.queryParam("near", near + ", AR");
         }
 
         if (open != null) {
@@ -185,17 +191,27 @@ public class PlacesController {
         return builder.build().encode().toUri();
     }
 
-    private URI getUriForVenuesSearch(String termino) {
+    private URI getUriForVenuesSearch(String termino, String near, String lat, String lon, String radius) {
+        
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(BASE_URL)
                 .path("/search")
                 .queryParam("client_id", clientId)
                 .queryParam("client_secret", clientSecret)
                 .queryParam("v", apiVersion)
-                .queryParam("near", "Buenos Aires, AR");
+                .queryParam("radius", radius);
 
         if (termino != null) {
             builder.queryParam("query", termino);
         }
+
+        if (lat != null && lon != null) {
+            builder.queryParam("ll", lat + "," + lon);
+        }
+
+        if (near != null) {
+            builder.queryParam("near", near + ", AR");
+        }
+
         return builder.build().encode().toUri();
     }
 

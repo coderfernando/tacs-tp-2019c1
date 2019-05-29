@@ -3,7 +3,6 @@ package ar.edu.utn.tacs.services;
 import ar.edu.utn.tacs.model.Users;
 import ar.edu.utn.tacs.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Component;

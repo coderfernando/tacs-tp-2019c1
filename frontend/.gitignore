@@ -11,6 +11,7 @@ selenium-debug.log
 /target/
 */target/*
 */target/**
+node
 
 # Editor directories and files
 .idea

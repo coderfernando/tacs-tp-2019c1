@@ -21,12 +21,12 @@
 </template>
 
 <script>
-import AppMenu from '@/components/AppMenu'
+import AppMenu from "@/components/AppMenu";
 
 export default {
-  name: 'HomePage',
+  name: "HomePage",
   components: {
-    'app-menu': AppMenu
+    "app-menu": AppMenu
   }
-}
+};
 </script>
