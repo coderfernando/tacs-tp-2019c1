@@ -21,8 +21,9 @@ Descargar el proyecto:
   
  - Dentro de tacs-tp-2019c1 ejecutar:
   
-1. `mvn install`  
-2. `mvn spring-boot:run` --> Se iniciará el servidor por defecto escuchando en localhost:8080
+1. `mvn clean install`
+2. `mvn compile`  
+3. `mvn spring-boot:run` --> Se iniciará el servidor por defecto escuchando en localhost:8080
 
  **Integracion con Telegram**
  

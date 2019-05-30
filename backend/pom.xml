@@ -13,6 +13,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<start-class>ar.edu.utn.tacs.BackendApplication</start-class>
+		<spring.boot.mainclass>ar.edu.utn.tacs.BackendApplication</spring.boot.mainclass>
 	</properties>
 
 	<repositories>
@@ -40,7 +41,7 @@
 		</dependency>
 		<dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>			
+            <artifactId>spring-boot-starter-data-rest</artifactId>
 			<version>RELEASE</version>
         </dependency>
 		<dependency>
@@ -113,7 +114,16 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.1.x</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<mainClass>${spring.boot.mainclass}</mainClass>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -126,11 +136,11 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>src/main/resources/public</outputDirectory>
+							<outputDirectory>src/main/resources/META-INF/resources</outputDirectory>
 							<overwrite>true</overwrite>
 							<resources>
 								<resource>
-									<directory>${project.parent.basedir}/frontend/target/dist</directory>
+									<directory>../frontend/target/dist</directory>
 									<includes>
 										<include>static/</include>
 										<include>index.html</include>
