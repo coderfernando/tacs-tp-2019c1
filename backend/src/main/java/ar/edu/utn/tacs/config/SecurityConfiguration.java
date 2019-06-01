@@ -23,8 +23,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests().anyRequest().authenticated()
-                .and().httpBasic();
+                .authorizeRequests().antMatchers("/api/places/**")
+                .authenticated().and().authorizeRequests().antMatchers("/api/me/**")
+                .authenticated().and().authorizeRequests().antMatchers("/api/admin/**").authenticated().and().formLogin().and().logout();
     }
 
     @Bean
