@@ -8,3 +8,5 @@ target
 node_modules
 dist
 .vscode
+META-INF
+package-lock.json

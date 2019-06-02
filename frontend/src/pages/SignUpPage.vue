@@ -63,7 +63,11 @@ export default {
       axios
         .post("/api/user", newUser)
         .then(function(response) {
-          console.log(response);
+          if (response.status == 201) {
+            this.$router.push("/");
+          } else {
+            alert("Ocurrió un error. Intente de nuevo por favor.");
+          }
         })
         .catch(function(error) {
           console.log(error);
