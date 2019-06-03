@@ -17,13 +17,16 @@ Descargar el proyecto:
   
 `git clone https://github.com/coderfernando/tacs-tp-2019c1`  
   
- **Iniciar aplicacion**   
+ **Compilar aplicacion // Frontend + Backend**   
   
  - Dentro de tacs-tp-2019c1 ejecutar:
   
 1. `mvn clean install`
-2. `mvn compile`  
-3. `mvn spring-boot:run` --> Se iniciará el servidor por defecto escuchando en localhost:8080
+ 
+  **Iniciar Servidor**   
+  - Dentro de tacs-tp-2019c1/backend ejecutar:
+
+1. `mvn spring-boot:run` --> Se iniciará el servidor por defecto escuchando en localhost:8080
 
  **Integracion con Telegram**
  
