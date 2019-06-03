@@ -40,17 +40,18 @@
             </b-form-radio-group>
           </b-form-group>
         </b-row>
+        <b-row>
+          <ul id="placesList" class="col-sm items-list">
+            <li v-for="venue in venues" :key="venue.foursquareId">
+              <b-row>
+                <h4>{{ venue.title }}</h4>
+                <h6>{{ venue.address }}</h6>
+              </b-row>
+              <a @click="openAddModal(venue)">Add to list</a>
+            </li>
+          </ul>
+        </b-row>
       </b-container>
-
-      <ul id="placesList" class="col-sm items-list">
-        <li v-for="venue in venues" :key="venue.foursquareId">
-          <div>
-            <h4>{{ venue.title }}</h4>
-            <h6>{{ venue.address }}</h6>
-          </div>
-          <a @click="openAddModal(venue)">Add to list</a>
-        </li>
-      </ul>
     </div>
 
     <b-modal ref="AddToListModal" hide-footer title="Add place to list">
