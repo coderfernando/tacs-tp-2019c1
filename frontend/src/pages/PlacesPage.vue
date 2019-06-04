@@ -29,18 +29,6 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-form-group label="Select location options">
-            <b-form-radio-group
-              id="radio-group"
-              v-model="radselected"
-              name="radio-sub-component"
-            >
-              <b-form-radio value="City">Use Selected City</b-form-radio>
-              <b-form-radio value="Location">Use Current Location</b-form-radio>
-            </b-form-radio-group>
-          </b-form-group>
-        </b-row>
-        <b-row>
           <ul id="placesList" class="col-sm items-list">
             <li v-for="venue in venues" :key="venue.foursquareId">
               <b-row>
@@ -101,11 +89,10 @@ export default {
       selectedVenue: {},
       loadingLists: true,
       lists: [],
-      radselected: "",
       selselected: null,
       termino: "",
       options: [
-        { value: null, text: "Select City" },
+        { value: null, text: "Use Current Location" },
         { value: "Buenos Aires", text: "Buenos Aires" },
         { value: "Catamarca", text: "Catamarca" },
         { value: "Chaco", text: "Chaco" },
@@ -144,41 +131,27 @@ export default {
         radius: 1000
       };
 
-      switch (this.radselected) {
-        case "Location":
-          position = await currentCoordinates();
-          param.lat = position.latitude;
-          param.lon = position.longitude;
-          if (this.termino == "") {
-            url = "/api/places";
-          } else {
-            url = "/api/places/search";
-            param.termino = this.termino;
-          }
-          console.log("Requesting places with position", position);
-          break;
-        case "City":
-          if (this.selselected != null) {
-            position = this.selselected;
-            param.near = position;
-            console.log("Requesting places with position", position);
-          } else {
-            position = "Buenos Aires";
-            param.near = position;
-            console.log(
-              "No selecciono, una ciudad, defaulteando a Buenos Aires"
-            );
-          }
-          if (this.termino == "") {
-            url = "/api/places";
-          } else {
-            url = "/api/places/search";
-            param.termino = this.termino;
-          }
-          break;
-        default:
-          position = await currentCoordinates();
-          break;
+      if (this.selselected) {
+        position = this.selselected;
+        param.near = position;
+        if (this.termino == "") {
+          url = "/api/places";
+        } else {
+          url = "/api/places/search";
+          param.termino = this.termino;
+        }
+        console.log("Requesting places with position", position);
+      } else {
+        position = await currentCoordinates();
+        param.lat = position.latitude;
+        param.lon = position.longitude;
+        if (this.termino == "") {
+          url = "/api/places";
+        } else {
+          url = "/api/places/search";
+          param.termino = this.termino;
+        }
+        console.log("Requesting places with position", position);
       }
       axios
         .get(url, {

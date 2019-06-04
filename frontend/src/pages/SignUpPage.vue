@@ -64,7 +64,7 @@ export default {
         .post("/api/user", newUser)
         .then(function(response) {
           if (response.status == 201) {
-            this.$router.push("/");
+            window.location.href = "/";
           } else {
             alert("Ocurrió un error. Intente de nuevo por favor.");
           }
