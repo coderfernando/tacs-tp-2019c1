@@ -32,7 +32,7 @@ public class MongoBootApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        deleteAll();
+//        deleteAll();
         addSampleData();
         listAll();
         findFirst();
