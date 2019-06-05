@@ -23,9 +23,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/api/places/**")
-                .authenticated().and().authorizeRequests().antMatchers("/api/me/**")
-                .authenticated().and().authorizeRequests().antMatchers("/api/admin/**").authenticated().and().formLogin().and().logout();
+                .authorizeRequests()
+                .antMatchers("/resources/**").permitAll()
+                .antMatchers("/static/**").permitAll()
+                .antMatchers("/login*").permitAll()
+                .antMatchers("/logout*").permitAll()
+                .antMatchers("/#/signup*").permitAll()
+                .antMatchers("/#/signin*").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin();
     }
 
     @Bean
