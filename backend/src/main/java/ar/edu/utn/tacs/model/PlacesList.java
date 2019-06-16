@@ -1,11 +1,18 @@
 package ar.edu.utn.tacs.model;
 
 import ar.edu.utn.tacs.model.places.Venue;
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
+@Data
+@Document(collection = "placesList")
 public class PlacesList {
 
+    @Id
     private String id;
     private String name;
     private ArrayList<Venue> places;
