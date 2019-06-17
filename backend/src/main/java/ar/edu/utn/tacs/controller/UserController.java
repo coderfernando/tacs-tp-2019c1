@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @CrossOrigin
 @RequestMapping("api/user")
@@ -48,6 +50,16 @@ public class UserController {
     public String logOut(@RequestBody Users user) {
         UserSession.getInstance().setUser(null);
         return "successful logout!";
+    }
+
+    @PostMapping("/isuserlogged")
+    @ResponseBody
+    public ResponseEntity<String> isUserLogged(Principal principal) {
+        if (principal != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
 }

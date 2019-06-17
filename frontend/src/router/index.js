@@ -10,15 +10,25 @@ import BootstrapVue from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "../../static/css/main.css";
+import axios from "axios";
 
 Vue.use(Router);
 Vue.use(BootstrapVue);
 
-const isLoggedIn = () => {
-  //let token = sessionStorage.getItem("token");
-  //return token !== undefined && token !== null;
-  return true;
-};
+/* eslint-disable */
+export function isLoggedIn() {
+  return new Promise((resolve, reject) => {
+    axios
+      .post("/api/user/isuserlogged", {})
+      .then(function() {
+        resolve(true);
+      })
+      .catch(function() {
+        resolve(false);
+      });
+  });
+}
+/* eslint-enable */
 
 const router = new Router({
   routes: [
@@ -26,7 +36,7 @@ const router = new Router({
       path: "/",
       name: "Home",
       component: HomePage,
-      meta: { auth: true }
+      meta: { auth: false }
     },
     {
       path: "/places",
@@ -55,14 +65,11 @@ const router = new Router({
   ]
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async function checkLogin(to, from, next) {
   if (to.matched.some(record => record.meta.auth)) {
-    if (!isLoggedIn()) {
-      // next({
-      //   path: "/login",
-      //   query: { redirect: to.fullPath }
-      // });
-      next();
+    var logged = await isLoggedIn();
+    if (!logged) {
+      window.location = "/login";
     } else {
       next();
     }
