@@ -47,10 +47,11 @@ export default {
         .post("/api/user/login", user)
         .then(function(response) {
           console.log(response);
+          window.location = "#/";
         })
         .catch(function(error) {
           console.log(error);
-          alert("Ocurrió un error. Intente de nuevo por favor.");
+          alert("Usuario y contraseña inválidos. Intente de nuevo por favor.");
         });
     }
   }
