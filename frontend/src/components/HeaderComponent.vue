@@ -1,9 +1,13 @@
 <template>
   <div class="row">
-    <a class="col-sm-8" href="/">
+    <a class="col-sm-6" href="/">
       <img src="../../static/img/logo.png" class="logo" />
     </a>
-    <a class="col-sm-4 logout-link" href="logout">Log out</a>
+    <div class="col-sm-6 header-links">
+      <a href="/login">Login</a>
+      <a href="/logout">Logout</a>
+      <a href="#/signup">Register</a>
+    </div>
   </div>
 </template>
 

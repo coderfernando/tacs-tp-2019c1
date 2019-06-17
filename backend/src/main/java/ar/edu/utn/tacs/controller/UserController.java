@@ -6,6 +6,7 @@ import ar.edu.utn.tacs.model.Users;
 import ar.edu.utn.tacs.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +32,15 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    public String logIn(@RequestBody Users user) {
-        UserSession.getInstance().setUser(user);
-        return "successful login!";
+    @ResponseBody
+    public ResponseEntity<String> logIn(@RequestBody Users user) {
+        Users savedUser = repository.findFirstByName(user.getName());
+        if (savedUser != null && configuration.passwordEncoder().matches(user.getPassword(), savedUser.getPassword())) {
+            UserSession.getInstance().setUser(savedUser);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
     }
 
     @PostMapping("/logout")

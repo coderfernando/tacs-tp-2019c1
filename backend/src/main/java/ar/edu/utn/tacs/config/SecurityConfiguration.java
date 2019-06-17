@@ -24,14 +24,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/static/**").permitAll()
                 .antMatchers("/login*").permitAll()
                 .antMatchers("/logout*").permitAll()
-                .antMatchers("/#/signup*").permitAll()
-                .antMatchers("/#/signin*").permitAll()
+                .antMatchers("/signin*").permitAll()
+                .antMatchers("/api/user/login*").permitAll()
+                .antMatchers("/api/user/logout*").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin();
+
+        // disable page caching
+        http.headers().cacheControl();
     }
 
     @Bean

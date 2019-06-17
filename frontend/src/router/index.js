@@ -14,32 +14,61 @@ import "../../static/css/main.css";
 Vue.use(Router);
 Vue.use(BootstrapVue);
 
-export default new Router({
+const isLoggedIn = () => {
+  //let token = sessionStorage.getItem("token");
+  //return token !== undefined && token !== null;
+  return true;
+};
+
+const router = new Router({
   routes: [
     {
       path: "/",
       name: "Home",
-      component: HomePage
+      component: HomePage,
+      meta: { auth: true }
     },
     {
       path: "/places",
       name: "Places",
-      component: PlacesPage
+      component: PlacesPage,
+      meta: { auth: true }
     },
     {
       path: "/lists",
       name: "Lists",
-      component: ListsPage
+      component: ListsPage,
+      meta: { auth: true }
     },
     {
       path: "/signup",
       name: "SignUp",
-      component: SignUp
+      component: SignUp,
+      meta: { auth: false }
     },
     {
       path: "/signin",
       name: "SignIn",
-      component: SignIn
+      component: SignIn,
+      meta: { auth: false }
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.auth)) {
+    if (!isLoggedIn()) {
+      // next({
+      //   path: "/login",
+      //   query: { redirect: to.fullPath }
+      // });
+      next();
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;
