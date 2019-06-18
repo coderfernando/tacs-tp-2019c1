@@ -8,14 +8,14 @@
     </div>
     <div v-if="!loading" class="row">
       <b-container class="bv-row">
-        <b-row>
-          <b-col>
+        <b-row id="places-filters">
+          <div>
             <b-form-input
               v-model="termino"
               name="termino"
               placeholder="Enter search term"
             ></b-form-input>
-          </b-col>
+          </div>
           <b-col>
             <b-form-select
               v-model="selselected"
@@ -23,7 +23,7 @@
             ></b-form-select>
           </b-col>
           <b-col>
-            <button type="button" class="btn btn-dark" @click="getPlaces">
+            <button type="button" class="btn btn-primary" @click="getPlaces">
               Search
             </button>
           </b-col>
