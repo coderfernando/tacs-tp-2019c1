@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,7 +17,7 @@ public class Users {
     private String name;
     private String password;
     private Boolean isAdmin;
-    private List<PlacesList> placesLists;
+    private List<PlacesList> placesLists = new ArrayList<>();
 
     public Users(String name, String password, Boolean isAdmin) {
         this.name = name;

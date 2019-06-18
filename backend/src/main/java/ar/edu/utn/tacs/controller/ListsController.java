@@ -5,13 +5,16 @@ import ar.edu.utn.tacs.model.UserSession;
 import ar.edu.utn.tacs.model.Users;
 import ar.edu.utn.tacs.model.places.Venue;
 import ar.edu.utn.tacs.repositories.UserRepository;
+import ar.edu.utn.tacs.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,18 +25,29 @@ public class ListsController {
     private Logger logger = LoggerFactory.getLogger(PlacesController.class);
 
     @Autowired
+    Utils utils;
+
+    @Autowired
     private UserRepository userRepository;
 
     @GetMapping("")
     public List<PlacesList> getLists() {
-        return UserSession.getInstance().getLists();
+//        return UserSession.getInstance().getLists();
+        return utils.getLoggedUser().getPlacesLists();
     }
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public PlacesList create(@RequestBody PlacesList placesList) {
         logger.info("Request to create List name:" + placesList.getName());
-        return UserSession.getInstance().addList(placesList);
+        Users usr = utils.getLoggedUser();
+        if(usr.getPlacesLists() == null){
+            usr.setPlacesLists(new ArrayList<>());
+        }
+        usr.getPlacesLists().add(placesList);
+        userRepository.save(usr);
+        return placesList;
+//        return UserSession.getInstance().addList(placesList);
     }
 
     @PatchMapping("/{id}/change-name/{name}")
@@ -59,6 +73,10 @@ public class ListsController {
             placesList.addPlace(place);
 
         }
+        Users usr = utils.getLoggedUser();
+        PlacesList placesList = usr.getPlacesLists().stream().filter(x -> id.equals(x.getId())).findFirst().orElse(null);
+        placesList.addPlace(place);
+        userRepository.save(usr);
         return UserSession.getInstance().addPlaceToList(place, id);
     }
 
