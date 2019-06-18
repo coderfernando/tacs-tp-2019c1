@@ -7,9 +7,14 @@ body {
     margin-bottom: 15px;
 }
 
-.logout-link {
-    padding: 0.5rem 1rem;
+.header-links {
     text-align: right;
+}
+
+.header-links > a {
+    margin-top: 10px;
+    display: inline-block;
+    margin-left: 10px;
 }
 
 #app {
@@ -147,4 +152,8 @@ body {
 #addToListModalLists li a.added {
     color: #30c321;
     cursor: default;
+}
+
+#places-filters {
+	margin-bottom: 20px;
 }
