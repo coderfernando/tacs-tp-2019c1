@@ -59,7 +59,12 @@ public class ListsController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<PlacesList> delete(@PathVariable("id") String id) {
-        return UserSession.getInstance().deleteList(id);
+        Users usr = utils.getLoggedUser();
+        PlacesList placesList = usr.getPlacesLists().stream().filter(x -> id.equals(x.getId())).findFirst().orElse(null);
+        usr.getPlacesLists().remove(placesList);
+        userRepository.save(usr);
+        return  usr.getPlacesLists();
+//        return UserSession.getInstance().deleteList(id);
     }
 
     @PostMapping("/{id}/add")
