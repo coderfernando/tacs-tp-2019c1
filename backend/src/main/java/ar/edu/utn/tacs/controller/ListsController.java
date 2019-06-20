@@ -1,7 +1,6 @@
 package ar.edu.utn.tacs.controller;
 
 import ar.edu.utn.tacs.model.PlacesList;
-import ar.edu.utn.tacs.model.UserSession;
 import ar.edu.utn.tacs.model.Users;
 import ar.edu.utn.tacs.model.places.Venue;
 import ar.edu.utn.tacs.repositories.PlaceRegisteredRepository;
@@ -11,12 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -51,13 +47,18 @@ public class ListsController {
         usr.getPlacesLists().add(placesList);
         userRepository.save(usr);
         return placesList;
-//        return UserSession.getInstance().addList(placesList);
     }
 
     @PatchMapping("/{id}/change-name/{name}")
     @ResponseStatus(HttpStatus.OK)
     public PlacesList changeName(@PathVariable("id") String id, @PathVariable("name") String name) {
-        return UserSession.getInstance().changeListName(name, id);
+
+        Users usr = utils.getLoggedUser();
+        PlacesList placeList = usr.getPlacesLists().stream().filter(pl -> pl.getId().equals(id)).findFirst().orElse(null);
+        placeList.setName(name);
+        userRepository.save(usr);
+
+        return placeList;
     }
 
     @DeleteMapping("/{id}")
