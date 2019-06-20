@@ -1,5 +1,8 @@
 package ar.edu.utn.tacs.controller;
 
+import ar.edu.utn.tacs.repositories.UserRepository;
+import ar.edu.utn.tacs.util.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.*;
 import ar.edu.utn.tacs.model.Users;
@@ -12,21 +15,16 @@ import java.util.List;
 @RequestMapping("api/admin")
 public class AdminController {
 
+    @Autowired
+    Utils utils;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("users/all")
     public List<Users> GetUsers() {
-        List<Users> allUsers = new ArrayList<>();
-        Users user1 = new Users();
-        Users user2 = new Users();
 
-        user1.setName("user1");
-        user1.setPassword("");
-
-        user2.setName("user2");
-        user2.setPassword("");
-
-        allUsers.add(user1);
-        allUsers.add(user2);
-
+        List<Users> allUsers = userRepository.findAll();
         return allUsers;
     }
 
