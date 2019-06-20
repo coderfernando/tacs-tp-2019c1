@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.*;
 import ar.edu.utn.tacs.model.Users;
 import ar.edu.utn.tacs.model.PlacesList;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
+import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin
@@ -39,6 +40,18 @@ public class AdminController {
         return usr;
     }
 
+    @GetMapping("users/get/visited/places/{id}")
+    public Long getVisitedPlaces(@PathVariable("id") String id) {
+        Users usr = userRepository.findById(id).orElse(null);
+        return usr.getPlacesLists().stream().map(PlacesList::getVisitedPlacesIds).mapToInt(List::size).count();
+    }
+
+    @GetMapping("users/get/last/access/{id}")
+    public Date getLastAccess(@PathVariable("id") String id) {
+        Users usr = userRepository.findById(id).orElse(null);
+        return usr.getLastAccess();
+    }
+
     @GetMapping("lists/all")
     public List<PlacesList> GetListsPlaces() {
         List<PlacesList> allLists = new ArrayList<>();
@@ -61,8 +74,8 @@ public class AdminController {
 
 //        - Usuario   ---- DONE  ----- api/admin/users/get/user/data/{id}
 //        - Cantidad de listas --- DONE ---- api/admin/users/get/lists/{id}
-//        - Cantidad de lugares visitados en sus listas.
-//        - Último acceso
+//        - Cantidad de lugares visitados en sus listas.  ---- DONE  ----- api/admin/users/get/visited/places/{id}
+//        - Último acceso ---- DONE ----  api/admin/users/get/last/access/{id}
 //
 //    Como administrador quiero seleccionar 2 listas de usuarios diferentes y ver si tienen algún lugar en común.
 //    Como administrador quiero seleccionar un lugar y ver la cantidad de usuarios que se interesaron en el mismo (lo agregaron a una lista).
