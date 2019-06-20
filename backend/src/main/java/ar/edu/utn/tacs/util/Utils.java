@@ -13,22 +13,14 @@ public class Utils {
     @Autowired
     private UserRepository userRepository;
 
-    private Users userLogged;
-
     public Users getLoggedUser (){
-        if(userLogged != null){
-            return getUserLogged();
+        try {
+            String username = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+            return userRepository.findFirstByName(username);
         }
-        String username = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-        setUserLogged(userRepository.findFirstByName(username));
-        return getUserLogged();
+        catch (Exception e) {
+            return null;
+        }
     }
 
-    private Users getUserLogged() {
-        return userLogged;
-    }
-
-    private void setUserLogged(Users userLogged) {
-        this.userLogged = userLogged;
-    }
 }

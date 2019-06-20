@@ -4,6 +4,7 @@ import ar.edu.utn.tacs.config.SecurityConfiguration;
 import ar.edu.utn.tacs.model.UserSession;
 import ar.edu.utn.tacs.model.Users;
 import ar.edu.utn.tacs.repositories.UserRepository;
+import ar.edu.utn.tacs.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     UserRepository repository;
+
+    @Autowired
+    Utils utils;
 
     @Autowired
     SecurityConfiguration configuration;
@@ -52,13 +56,14 @@ public class UserController {
         return "successful logout!";
     }
 
-    @PostMapping("/isuserlogged")
+    @PostMapping("/me")
     @ResponseBody
-    public ResponseEntity<String> isUserLogged(Principal principal) {
-        if (principal != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+    public Users me() {
+        Users user = utils.getLoggedUser();
+        if (user != null) {
+            return user;
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return null;
         }
     }
 
