@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class Users {
     private String name;
     private String password;
     private Boolean isAdmin;
+    private Timestamp lastAccess;
     private List<PlacesList> placesLists = new ArrayList<>();
 
     public Users(String name, String password, Boolean isAdmin) {
@@ -57,5 +59,13 @@ public class Users {
 
     public void setPlacesLists(List<PlacesList> placesLists) {
         this.placesLists = placesLists;
+    }
+
+    public Timestamp getLastAccess() {
+        return lastAccess;
+    }
+
+    public void setLastAccess(Timestamp lastAccess) {
+        this.lastAccess = lastAccess;
     }
 }
