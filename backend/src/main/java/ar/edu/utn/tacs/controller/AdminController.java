@@ -33,6 +33,12 @@ public class AdminController {
         return usr.getPlacesLists().stream().count();
     }
 
+    @GetMapping("users/get/user/data/{id}")
+    public Users getUserData(@PathVariable("id") String id) {
+        Users usr = userRepository.findById(id).orElse(null);
+        return usr;
+    }
+
     @GetMapping("lists/all")
     public List<PlacesList> GetListsPlaces() {
         List<PlacesList> allLists = new ArrayList<>();
@@ -51,8 +57,10 @@ public class AdminController {
 }
 
 //    Como administrador quiero poder ver los siguientes datos de un usuario:
-//        - Usuario
-//        - Cantidad de listas
+// Ejemplo de uso: http://localhost:8099/api/admin/users/get/user/data/5cf003ce57b919479a1f4631
+
+//        - Usuario   ---- DONE  ----- api/admin/users/get/user/data/{id}
+//        - Cantidad de listas --- DONE ---- api/admin/users/get/lists/{id}
 //        - Cantidad de lugares visitados en sus listas.
 //        - Último acceso
 //
