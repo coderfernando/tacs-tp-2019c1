@@ -5,6 +5,7 @@ import PlacesPage from "@/pages/PlacesPage";
 import ListsPage from "@/pages/ListsPage";
 import SignUp from "@/pages/SignUpPage";
 import SignIn from "@/pages/SignInPage";
+import AdminPage from "@/pages/AdminPage";
 import BootstrapVue from "bootstrap-vue";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -16,15 +17,15 @@ Vue.use(Router);
 Vue.use(BootstrapVue);
 
 /* eslint-disable */
-export function isLoggedIn() {
+export function currentUser() {
   return new Promise((resolve, reject) => {
     axios
-      .post("/api/user/isuserlogged", {})
-      .then(function() {
-        resolve(true);
+      .post("/api/user/me", {})
+      .then(function(response) {
+        resolve(response.data);
       })
       .catch(function() {
-        resolve(false);
+        resolve(undefined);
       });
   });
 }
@@ -61,17 +62,31 @@ const router = new Router({
       name: "SignIn",
       component: SignIn,
       meta: { auth: false }
+    },
+    {
+      path: "/admin",
+      name: "AdminPage",
+      component: AdminPage,
+      meta: { auth: true, admin: true }
     }
   ]
 });
 
 router.beforeEach(async function checkLogin(to, from, next) {
   if (to.matched.some(record => record.meta.auth)) {
-    var logged = await isLoggedIn();
-    if (!logged) {
-      window.location = "/login";
+    var user = await currentUser();
+    if (user) {
+      if (to.meta.admin) {
+        if (user.isAdmin) {
+          next();
+        } else {
+          window.location = "/";
+        }
+      } else {
+        next();
+      }
     } else {
-      next();
+      window.location = "/login";
     }
   } else {
     next();

@@ -60,13 +60,14 @@ public class UserController {
         return "successful logout!";
     }
 
-    @PostMapping("/isuserlogged")
+    @PostMapping("/me")
     @ResponseBody
-    public ResponseEntity<String> isUserLogged(Principal principal) {
-        if (principal != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+    public Users me() {
+        Users user = utils.getLoggedUser();
+        if (user != null) {
+            return user;
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return null;
         }
     }
 

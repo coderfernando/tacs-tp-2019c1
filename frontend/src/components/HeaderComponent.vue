@@ -7,6 +7,7 @@
       <a v-if="!isLogged" href="/login">Login</a>
       <a v-if="isLogged" href="/logout">Logout</a>
       <a v-if="!isLogged" href="#/signup">Register</a>
+      <a v-if="user.isAdmin" href="#/admin">Admin panel</a>
     </div>
   </div>
 </template>
@@ -15,15 +16,15 @@
 import axios from "axios";
 
 /* eslint-disable */
-export function isLoggedIn() {
+export function currentUser() {
   return new Promise((resolve, reject) => {
     axios
-      .post("/api/user/isuserlogged", {})
-      .then(function() {
-        resolve(true);
+      .post("/api/user/me", {})
+      .then(function(response) {
+        resolve(response.data);
       })
       .catch(function() {
-        resolve(false);
+        resolve(undefined);
       });
   });
 }
@@ -33,15 +34,17 @@ export default {
   name: "Header",
   data() {
     return {
-      isLogged: false
+      isLogged: false,
+      user: {}
     };
   },
   created: async function() {
-    this.isLogged = await this.checkIfLogged();
+    this.user = await this.getUser();
+    this.isLogged = this.user ? true : false;
   },
   methods: {
-    async checkIfLogged() {
-      return await isLoggedIn();
+    async getUser() {
+      return await currentUser();
     }
   }
 };

@@ -25,7 +25,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests().antMatchers("/api/places/**")
                 .authenticated().and().authorizeRequests().antMatchers("/api/me/**")
-                .authenticated().and().authorizeRequests().antMatchers("/api/admin/**").authenticated().and().formLogin().and().logout();
+                .authenticated().and().authorizeRequests().antMatchers("/api/admin/**")
+                .authenticated().and().formLogin().and().logout();
     }
 
 //TODO: DEJO COMENTADO ESTO PARA PODER PASAR EL REGISTER. HAY QUE REVISARLO
