@@ -23,9 +23,14 @@ public class AdminController {
 
     @GetMapping("users/all")
     public List<Users> GetUsers() {
-
         List<Users> allUsers = userRepository.findAll();
         return allUsers;
+    }
+
+    @GetMapping("users/get/lists/{id}")
+    public Long getCountLists(@PathVariable("id") String id) {
+        Users usr = userRepository.findById(id).orElse(null);
+        return usr.getPlacesLists().stream().count();
     }
 
     @GetMapping("lists/all")
