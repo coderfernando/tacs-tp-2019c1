@@ -13,11 +13,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.sql.Timestamp;
 
 @RestController
 @CrossOrigin
 @RequestMapping("api/user")
 public class UserController {
+
+    @Autowired
+    Utils utils;
 
     @Autowired
     UserRepository repository;
@@ -33,6 +37,7 @@ public class UserController {
     public Users create(@RequestBody Users user) {
         user.setPassword(configuration.passwordEncoder().encode(user.getPassword()));
         user.setAdmin(false);//TODO establecer por signup si es o no admin
+        user.setLastAccess(new Timestamp(System.currentTimeMillis()));
         repository.save(user);
         return user;
     }
@@ -43,6 +48,8 @@ public class UserController {
         Users savedUser = repository.findFirstByName(user.getName());
         if (savedUser != null && configuration.passwordEncoder().matches(user.getPassword(), savedUser.getPassword())) {
             UserSession.getInstance().setUser(savedUser);
+            Users usr = utils.getLoggedUser();
+            usr.setLastAccess(new Timestamp(System.currentTimeMillis()));
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
