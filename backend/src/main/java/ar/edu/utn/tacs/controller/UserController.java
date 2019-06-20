@@ -27,9 +27,6 @@ public class UserController {
     UserRepository repository;
 
     @Autowired
-    Utils utils;
-
-    @Autowired
     SecurityConfiguration configuration;
 
     @PostMapping("")
