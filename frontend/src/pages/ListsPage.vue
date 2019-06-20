@@ -33,7 +33,22 @@
             <div v-if="l.places.length > 0">
               <b>Places</b>
             </div>
-            <div v-for="p in l.places" :key="p.id">- {{ p.title }}</div>
+            <div v-for="p in l.places" :key="p.id">
+              - {{ p.title }}
+              <a
+                v-if="!l.visitedPlacesIds.includes(p.id)"
+                class="checkin-button"
+                @click="checkinPlace(l.id, p.foursquareId)"
+              >
+                Check-in
+              </a>
+              <span
+                v-if="l.visitedPlacesIds.includes(p.id)"
+                class="checked-place"
+              >
+                Checked
+              </span>
+            </div>
           </li>
         </ul>
       </div>
@@ -162,6 +177,19 @@ export default {
       var self = this;
       axios
         .delete("/api/me/lists/" + id)
+        .then(function(response) {
+          console.log(response);
+          self.getLists();
+        })
+        .catch(function(error) {
+          console.log(error);
+          alert("Ocurrió un error. Intente de nuevo por favor.");
+        });
+    },
+    checkinPlace: function(listId, placeId) {
+      var self = this;
+      axios
+        .patch("/api/me/lists/" + listId + "/checkin/" + placeId)
         .then(function(response) {
           console.log(response);
           self.getLists();

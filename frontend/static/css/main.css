@@ -86,7 +86,7 @@ body {
     cursor: pointer;
 }
 
-#listsList li a {
+#listsList li > a {
 	text-decoration: none;
     color: #007bff;
     cursor: pointer;
@@ -156,4 +156,14 @@ body {
 
 #places-filters {
 	margin-bottom: 20px;
+}
+
+.checkin-button {
+   	color: #007bff !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+}
+
+.checked-place {
+	color: #30c321;
 }
