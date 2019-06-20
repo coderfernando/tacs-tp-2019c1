@@ -1,5 +1,7 @@
 package ar.edu.utn.tacs.controller;
 
+import ar.edu.utn.tacs.model.places.Venue;
+import ar.edu.utn.tacs.repositories.PlaceRegisteredRepository;
 import ar.edu.utn.tacs.repositories.UserRepository;
 import ar.edu.utn.tacs.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,7 @@ import ar.edu.utn.tacs.model.Users;
 import ar.edu.utn.tacs.model.PlacesList;
 
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -21,6 +23,9 @@ public class AdminController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PlaceRegisteredRepository placeRegisteredRepository;
 
     @GetMapping("users/all")
     public List<Users> GetUsers() {
@@ -52,20 +57,27 @@ public class AdminController {
         return usr.getLastAccess();
     }
 
-    @GetMapping("lists/all")
-    public List<PlacesList> GetListsPlaces() {
-        List<PlacesList> allLists = new ArrayList<>();
-        PlacesList list1 = new PlacesList();
-        PlacesList list2 = new PlacesList();
+    @GetMapping("interestedin/{venueid}")
+    public List<Users> GetUsersInterestedIn(@PathVariable("venueid") String venueId) {
 
-        list1.setName("list1");
+        List<Users> interestedUsers = userRepository.findAll().stream()
+                                        .filter(user -> user.getPlacesLists().stream()
+                                              .anyMatch(placeList -> placeList.getPlaces().stream()
+                                                      .anyMatch(venue -> venue.getId().equals(venueId))))
+                                        .collect(Collectors.toList());
 
-        list2.setName("list2");
 
-        allLists.add(list1);
-        allLists.add(list2);
 
-        return allLists;
+
+        return interestedUsers;
+    }
+
+    @GetMapping("placesregistered")
+    public List<Venue> GetPlacesRegistered() {
+
+        List<Venue> registeredPlaces = placeRegisteredRepository.findAll().stream().map(pl -> pl.getVenue()).collect(Collectors.toList());
+
+        return registeredPlaces;
     }
 }
 
@@ -77,8 +89,12 @@ public class AdminController {
 //        - Cantidad de lugares visitados en sus listas.  ---- DONE  ----- api/admin/users/get/visited/places/{id}
 //        - Último acceso ---- DONE ----  api/admin/users/get/last/access/{id}
 //
-//    Como administrador quiero seleccionar 2 listas de usuarios diferentes y ver si tienen algún lugar en común.
+//    Como administrador quiero seleccionar 2 listas de usuarios diferentes y ver si tienen algún lugar en común. -- DONE Estamos devolviendo todos los usuarios con t0do se puede hacer en la UI.
+
+
 //    Como administrador quiero seleccionar un lugar y ver la cantidad de usuarios que se interesaron en el mismo (lo agregaron a una lista).
+
+
 //    Como administrador quiero conocer la cantidad total de lugares registrados en el sistema
 //        - En el día de hoy
 //        - En los últimos 3 días

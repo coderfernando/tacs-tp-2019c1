@@ -4,6 +4,7 @@ import ar.edu.utn.tacs.model.PlacesList;
 import ar.edu.utn.tacs.model.UserSession;
 import ar.edu.utn.tacs.model.Users;
 import ar.edu.utn.tacs.model.places.Venue;
+import ar.edu.utn.tacs.repositories.PlaceRegisteredRepository;
 import ar.edu.utn.tacs.repositories.UserRepository;
 import ar.edu.utn.tacs.util.Utils;
 import org.slf4j.Logger;
@@ -29,6 +30,9 @@ public class ListsController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PlaceRegisteredRepository placeRegisteredRepository;
 
     @GetMapping("")
     public List<PlacesList> getLists() {
@@ -64,7 +68,6 @@ public class ListsController {
         usr.getPlacesLists().remove(placesList);
         userRepository.save(usr);
         return  usr.getPlacesLists();
-//        return UserSession.getInstance().deleteList(id);
     }
 
     @PostMapping("/{id}/add")
@@ -81,14 +84,22 @@ public class ListsController {
         Users usr = utils.getLoggedUser();
         PlacesList placesList = usr.getPlacesLists().stream().filter(x -> id.equals(x.getId())).findFirst().orElse(null);
         placesList.addPlace(place);
+        utils.registerPlace(place);
         userRepository.save(usr);
-        return UserSession.getInstance().addPlaceToList(place, id);
+
+        return placesList;
     }
 
     @PatchMapping("/{id}/checkin/{venueId}")
     @ResponseStatus(HttpStatus.OK)
     public PlacesList checkin(@PathVariable("id") String listId, @PathVariable("venueId") String venueId) {
-        return UserSession.getInstance().checkinPlaceInList(venueId, listId);
+
+        Users user = utils.getLoggedUser();
+        PlacesList placesList = user.getPlacesLists().stream().filter(pl -> pl.getId().equals(listId)).findFirst().orElse(null);
+        placesList.checkin(venueId);
+
+        userRepository.save(user);
+        return placesList;
     }
 
 }
