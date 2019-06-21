@@ -38,6 +38,7 @@ public class Utils {
             PlaceRegister placeRegister = new PlaceRegister();
             placeRegister.setVenue(place);
             placeRegister.setRegisteredDate(new Date());
+
             placeRegisteredRepository.save(placeRegister);
 
             return placeRegister;

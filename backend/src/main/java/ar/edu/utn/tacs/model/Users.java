@@ -25,9 +25,7 @@ public class Users {
         this.isAdmin = isAdmin;
     }
 
-    public Users() {
-        id = new ObjectId();
-    }
+    public Users() { id = new ObjectId(); }
 
     public void setId(ObjectId id) {
         this.id = id;
