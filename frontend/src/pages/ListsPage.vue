@@ -33,17 +33,17 @@
             <div v-if="l.places.length > 0">
               <b>Places</b>
             </div>
-            <div v-for="p in l.places" :key="p.id">
+            <div v-for="p in l.places" :key="p.foursquareId">
               - {{ p.title }}
               <a
-                v-if="!l.visitedPlacesIds.includes(p.id)"
+                v-if="!l.visitedPlacesIds.includes(p.foursquareId)"
                 class="checkin-button"
                 @click="checkinPlace(l.id, p.foursquareId)"
               >
                 Check-in
               </a>
               <span
-                v-if="l.visitedPlacesIds.includes(p.id)"
+                v-if="l.visitedPlacesIds.includes(p.foursquareId)"
                 class="checked-place"
               >
                 Checked
