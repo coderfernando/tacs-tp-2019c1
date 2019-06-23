@@ -27,6 +27,9 @@ public class UserController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public Users create(@RequestBody Users user) {
+        if(repository.findFirstByName(user.getName()) != null){
+            throw new RuntimeException("usuario existente");
+        }
         user.setPassword(configuration.passwordEncoder().encode(user.getPassword()));
         user.setAdmin(false);//TODO establecer por signup si es o no admin
         user.setLastAccess(new Date(System.currentTimeMillis()));
