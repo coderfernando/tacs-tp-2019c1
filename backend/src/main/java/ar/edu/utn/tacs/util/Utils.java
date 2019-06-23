@@ -33,7 +33,13 @@ public class Utils {
 
     public PlaceRegister registerPlace (Venue place){
 
-        if (placeRegisteredRepository.findAll().stream().filter(pr -> pr.getVenue().getId().equals(place.getId())).count() == 0){
+        boolean isNotRegistered = placeRegisteredRepository.findAll().stream()
+                                        .filter(pr -> pr.getVenue()
+                                                .getAdditionalProperties().get("foursquareId")
+                                                .equals(place.getAdditionalProperties().get("foursquareId")))
+                                        .count() == 0;
+
+        if (isNotRegistered) {
 
             PlaceRegister placeRegister = new PlaceRegister();
             placeRegister.setVenue(place);
@@ -43,7 +49,6 @@ public class Utils {
 
             return placeRegister;
         }
-
         return  null;
     }
 
