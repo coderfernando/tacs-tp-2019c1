@@ -1,6 +1,9 @@
 package ar.edu.utn.tacs;
 
 import static org.junit.Assert.assertEquals;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,17 @@ public class UserControllerTest {
     
     @Autowired
     UserRepository ur;
+
+    @Before
+    private void cleanRepo(){
+        ur.deleteAll();
+    }
+
+    @After
+    private void createAdmin(){
+        Users admin = new Users("admin", "welcome1", true);
+        ur.save(admin);
+    }
 
     @Test
     public void createUser_existsInRepo() {

@@ -2,6 +2,7 @@ package ar.edu.utn.tacs;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +23,12 @@ public class UserRepositoryTests {
     @Before
     private void cleanRepo(){
         userRepository.deleteAll();
+    }
+
+    @After
+    private void createAdmin(){
+        Users admin = new Users("admin", "welcome1", true);
+        userRepository.save(admin);
     }
 
     @Test

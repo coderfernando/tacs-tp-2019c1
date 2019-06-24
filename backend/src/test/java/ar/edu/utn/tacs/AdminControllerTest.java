@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +34,12 @@ public class AdminControllerTest {
     @Before
     public void cleanRepo(){
         ur.deleteAll();
+    }
+    
+    @After
+    private void createAdmin(){
+        Users admin = new Users("admin", "welcome1", true);
+        ur.save(admin);
     }
 
     @Test

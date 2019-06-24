@@ -12,9 +12,7 @@ import ar.edu.utn.tacs.model.Users;
 import ar.edu.utn.tacs.model.PlacesList;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,31 +30,31 @@ public class AdminController {
     @Autowired
     private PlaceRegisteredRepository placeRegisteredRepository;
 
-    @GetMapping("users/all")
+    @GetMapping("users")
     public List<Users> GetUsers() {
         List<Users> allUsers = userRepository.findAll();
         return allUsers;
     }
 
-    @GetMapping("users/get/lists/{id}")
+    @GetMapping("users/{id}/lists")
     public Long getCountLists(@PathVariable("id") String id) {
         Users usr = userRepository.findById(id).orElse(null);
         return usr.getPlacesLists().stream().count();
     }
 
-    @GetMapping("users/get/user/data/{id}")
+    @GetMapping("users/{id}/data")
     public Users getUserData(@PathVariable("id") String id) {
         Users usr = userRepository.findById(id).orElse(null);
         return usr;
     }
 
-    @GetMapping("users/get/visited/places/{id}")
+    @GetMapping("users/{id}/visited")
     public Long getVisitedPlaces(@PathVariable("id") String id) {
         Users usr = userRepository.findById(id).orElse(null);
         return usr.getPlacesLists().stream().map(PlacesList::getVisitedPlacesIds).mapToInt(List::size).count();
     }
 
-    @GetMapping("users/get/last/access/{id}")
+    @GetMapping("users/{id}/lastaccess")
     public Date getLastAccess(@PathVariable("id") String id) {
         Users usr = userRepository.findById(id).orElse(null);
         return usr.getLastAccess();
