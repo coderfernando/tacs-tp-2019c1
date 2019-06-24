@@ -59,11 +59,11 @@ export default {
           this.loading = false;
           this.users = response.data.map(u => {
             return {
-              id: u.id,
+              id: u.id.machineIdentifier,
               name: u.name,
               lastAccess: u.lastAccess,
-              listCount: this.getUserListCount(u.id),
-              visitedCount: this.getUserVisitedCount(u.id),
+              listCount: this.getUserListCount(u.id.machineIdentifier),
+              visitedCount: this.getUserVisitedCount(u.id.machineIdentifier),
               placesLists: [
                 ...u.placesLists.map(pl => {
                   return {
