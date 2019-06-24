@@ -73,7 +73,7 @@ public class AdminController {
         return (long) interestedUsers.size();
     }
 
-    @GetMapping("placesregistered")
+    @GetMapping("amountplacesregistered")
     public Long getPlacesRegisteredCount(@RequestParam(name="dateFrom", required = false) Date dateFrom) {
 
         List<PlaceRegister> registeredPlaces = placeRegisteredRepository.findAll();
@@ -91,6 +91,42 @@ public class AdminController {
             : registeredPlaces.stream().map(rp -> rp.getVenue()).collect(Collectors.toList());
 
         return (long) places.size();
+    }
+
+    @GetMapping("placesregistered")
+    public List<PlaceRegister> getPlacesRegistered(@RequestParam(name="dateFrom", required = false) Date dateFrom) {
+
+        List<PlaceRegister> registeredPlaces = placeRegisteredRepository.findAll();
+        Date dateFromNoTime = removeTime(dateFrom);
+
+        registeredPlaces = (dateFrom != null)
+
+                ? registeredPlaces.stream()
+                .filter(rp -> rp.getRegisteredDate().after(dateFromNoTime))
+                .collect(Collectors.toList())
+
+                : registeredPlaces;
+
+        return registeredPlaces;
+    }
+
+    @GetMapping("placesofinterest")
+    public List<PlaceRegister> getplacesofinterest() {
+
+        List<PlaceRegister> registeredPlaces = placeRegisteredRepository.findAll();
+        List<Users> interestedUsers = userRepository.findAll();
+
+        for (PlaceRegister placeRegister: registeredPlaces) {
+
+            long userInterestedCount =  interestedUsers.stream().filter(user -> user.getPlacesLists().stream()
+                    .anyMatch(placeList -> placeList.getPlaces().stream()
+                            .anyMatch(venue -> venue.getAdditionalProperties().get("foursquareId")
+                                    .equals(placeRegister.getVenue().getAdditionalProperties().get("foursquareId"))))).count();
+
+            placeRegister.setUsersInterestedCount(userInterestedCount);
+        }
+      
+        return registeredPlaces;
     }
 
     private Date removeTime(Date date) {
