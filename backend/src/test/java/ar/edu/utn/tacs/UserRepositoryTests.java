@@ -21,13 +21,13 @@ public class UserRepositoryTests {
     UserRepository userRepository;
 
     @Before
-    private void cleanRepo(){
+    public void cleanRepo(){
         userRepository.deleteAll();
     }
 
     @After
-    private void createAdmin(){
-        Users admin = new Users("admin", "welcome1", true);
+    public void createAdmin(){
+        Users admin = new Users("admin", "$2a$10$AjHGc4x3Nez/p4ZpvFDWeO6FGxee/cVqj5KHHnHfuLnIOzC5ag4fm", true);
         userRepository.save(admin);
     }
 

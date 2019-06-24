@@ -61,7 +61,7 @@ public class AdminController {
     }
 
     @GetMapping("users/interestedin/{venueid}")
-    public List<Users> GetUsersInterestedIn(@PathVariable("venueid") String venueId) {
+    public Long getUsersInterestedInCount(@PathVariable("venueid") String venueId) {
 
         List<Users> interestedUsers = userRepository.findAll().stream()
                                         .filter(user -> user.getPlacesLists().stream()
@@ -70,11 +70,11 @@ public class AdminController {
                                                               .equals(venueId))))
                                         .collect(Collectors.toList());
 
-        return interestedUsers;
+        return (long) interestedUsers.size();
     }
 
     @GetMapping("placesregistered")
-    public List<Venue> GetPlacesRegistered(@RequestParam(name="dateFrom", required = false) Date dateFrom) {
+    public Long getPlacesRegisteredCount(@RequestParam(name="dateFrom", required = false) Date dateFrom) {
 
         List<PlaceRegister> registeredPlaces = placeRegisteredRepository.findAll();
         List<Venue> places;
@@ -90,7 +90,7 @@ public class AdminController {
 
             : registeredPlaces.stream().map(rp -> rp.getVenue()).collect(Collectors.toList());
 
-        return places;
+        return (long) places.size();
     }
 
     private Date removeTime(Date date) {

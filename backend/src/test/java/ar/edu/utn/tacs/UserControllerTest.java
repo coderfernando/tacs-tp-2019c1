@@ -25,13 +25,13 @@ public class UserControllerTest {
     UserRepository ur;
 
     @Before
-    private void cleanRepo(){
+    public void cleanRepo(){
         ur.deleteAll();
     }
 
     @After
-    private void createAdmin(){
-        Users admin = new Users("admin", "welcome1", true);
+    public void createAdmin(){
+        Users admin = new Users("admin", "$2a$10$AjHGc4x3Nez/p4ZpvFDWeO6FGxee/cVqj5KHHnHfuLnIOzC5ag4fm", true);
         ur.save(admin);
     }
 
