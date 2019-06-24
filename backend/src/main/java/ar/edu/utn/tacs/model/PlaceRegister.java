@@ -2,6 +2,7 @@ package ar.edu.utn.tacs.model;
 
 import ar.edu.utn.tacs.model.places.Venue;
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
@@ -16,6 +17,9 @@ public class PlaceRegister {
     private Venue venue;
 
     private Date registeredDate;
+
+    @Transient
+    private long usersInterestedCount;
 
     public PlaceRegister() {
     }
@@ -48,6 +52,14 @@ public class PlaceRegister {
 
     public void setRegisteredDate(Date registeredDate) {
         this.registeredDate = registeredDate;
+    }
+
+    public long getUsersInterestedCount() {
+        return usersInterestedCount;
+    }
+
+    public void setUsersInterestedCount(long usersInterestedCount) {
+        this.usersInterestedCount = usersInterestedCount;
     }
 
 }
