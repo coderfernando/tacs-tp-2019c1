@@ -31,45 +31,52 @@ public class AdminControllerTest {
     @Autowired
     UserRepository ur;
 
+    Users tom;
+    Users newbie;
+    Users newbie2;
+
     @Before
-    public void cleanRepo(){
-        ur.deleteAll();
+    public void initUsers(){
+        this.tom = new Users("tom", "tomspass", false);
+        this.newbie = new Users("Bran New", "JustCreated", false);
+        this.newbie2 = new Users("Bron New", "NewlyCreated", false);
     }
-    
+
     @After
-    public void createAdmin(){
-        Users admin = new Users("admin", "$2a$10$AjHGc4x3Nez/p4ZpvFDWeO6FGxee/cVqj5KHHnHfuLnIOzC5ag4fm", true);
-        ur.save(admin);
+    public void cleanRepo(){
+        Users tomToDel = ur.findFirstByName("tom");
+        Users newbieToDel = ur.findFirstByName("Bran New");
+        Users newbie2ToDel = ur.findFirstByName("Bron New");
+        if (tomToDel != null) { ur.delete(tomToDel); }
+        if (newbieToDel != null) { ur.delete(newbieToDel); }
+        if (newbie2ToDel != null) { ur.delete(newbie2ToDel); }
     }
 
     @Test
     public void createUser_AppearsInAdminList() {
-
-        Users tom = new Users("tom", "tomspass", false);
-        uc.create(tom);
+        
+        uc.create(this.tom);
         
         List<Users> encontrados = ac.GetUsers();
 
         Users encontrado = new Users();
 
         for (Users us : encontrados) {
-            if(us.getName().equals(tom.getName())){
+            if(us.getName().equals(this.tom.getName())){
                 encontrado = us;
                 break;
             }
         }
 
-        assertEquals("Prueba de creacion y persistencia de Usuario",tom.getName(),encontrado.getName());
+        assertEquals("Prueba de creacion y persistencia de Usuario",this.tom.getName(),encontrado.getName());
     }
 
     @Test
     public void listForCreatedUser_Is0() {
 
-        Users newbie = new Users("Bran New", "JustCreated", false);
-
-        ur.save(newbie);
+        ur.save(this.newbie);
         
-        Users encontrado = ur.findFirstByName(newbie.getName());
+        Users encontrado = ur.findFirstByName(this.newbie.getName());
 
         Long cero = (long) 0;
 
@@ -78,12 +85,10 @@ public class AdminControllerTest {
 
     @Test
     public void lastAccessCreatedUser_Is0() {
-
-        Users newbie = new Users("Bron New", "NewlyCreated", false);
-
-        ur.save(newbie);
         
-        Users encontrado = ur.findFirstByName(newbie.getName());
+        ur.save(this.newbie2);
+        
+        Users encontrado = ur.findFirstByName(this.newbie2.getName());
 
         assertNull("Prueba usuario recien creado no tiene fecha de acceso", ac.getLastAccess(encontrado.getId().toString()));
     }
