@@ -1,5 +1,5 @@
 <template>
-  <div class="admin">
+  <div id="adminpanel">
     <div class="row">
       <app-menu></app-menu>
     </div>
@@ -10,9 +10,6 @@
       <b-tabs pills>
         <b-tab title="User Data" active>
           <div>
-            <b-button type="button" class="btn btn-primary" @click="getUsers"
-              >Get Users</b-button
-            >
             <b-card no-body>
               <b-tabs pills card vertical end>
                 <b-tab v-for="us in users" :key="us.name" :title="us.name">
@@ -50,20 +47,27 @@ export default {
       users: []
     };
   },
+  created() {
+    this.getUsersData();
+  },
   methods: {
-    async getUsers() {
+    async getUsersData() {
       axios
         .get("/api/admin/users", {})
         .then(response => {
           console.log("Response", response);
           this.loading = false;
-          this.users = response.data.map(u => {
+          this.users = response.data.map(function(u) {
             return {
-              id: u.id.machineIdentifier,
+              id: u.id,
               name: u.name,
               lastAccess: u.lastAccess,
-              listCount: this.getUserListCount(u.id.machineIdentifier),
-              visitedCount: this.getUserVisitedCount(u.id.machineIdentifier),
+              listCount: u.placesLists.length,
+              visitedCount: u.placesLists
+                .map(pl => {
+                  return pl.visitedPlacesIds.length;
+                })
+                .reduce((a, b) => a + b, 0),
               placesLists: [
                 ...u.placesLists.map(pl => {
                   return {
@@ -74,11 +78,11 @@ export default {
               ]
             };
           });
+          console.log("USERS", this.users);
         })
         .catch(e => {
           this.loading = false;
           console.log("ERROR", e);
-          this.errors.push(e);
         });
     },
     getUser(userid) {
@@ -118,20 +122,21 @@ export default {
         .catch(e => {
           this.loading = false;
           console.log("ERROR", e);
-          this.errors.push(e);
         });
     },
-    getUserListCount(userid) {
-      axios
-        .get("/api/admin/users/" + userid + "/lists", {})
-        .then(response => {
-          console.log("Response", response);
-          return response.data;
-        })
-        .catch(e => {
-          console.log("ERROR", e);
-          this.errors.push(e);
-        });
+    async getUserListCount(userid) {
+      return new Promise(resolve => {
+        axios
+          .get("/api/admin/users/" + userid + "/lists", {})
+          .then(response => {
+            console.log("Response", response);
+            resolve(response.data);
+          })
+          .catch(e => {
+            console.log("ERROR", e);
+            resolve(undefined);
+          });
+      });
     },
     getUserVisitedCount(userid) {
       axios
@@ -142,7 +147,6 @@ export default {
         })
         .catch(e => {
           console.log("ERROR", e);
-          this.errors.push(e);
         });
     },
     async getCommomPlaces(userid1, listid1, userid2, listid2) {
@@ -184,7 +188,6 @@ export default {
         .catch(e => {
           this.loading = false;
           console.log("ERROR", e);
-          this.errors.push(e);
         });
     },
     async getRegisteredPlaces(fecha) {
@@ -198,7 +201,6 @@ export default {
         .catch(e => {
           this.loading = false;
           console.log("ERROR", e);
-          this.errors.push(e);
         });
     }
   }

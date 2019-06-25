@@ -12,7 +12,7 @@ import java.util.*;
 public class Users {
 
     @Id
-    private ObjectId id;
+    private String id;
     private String name;
     private String password;
     private Boolean isAdmin;
@@ -25,13 +25,13 @@ public class Users {
         this.isAdmin = isAdmin;
     }
 
-    public Users() { id = new ObjectId(); }
+    public Users() { id = new ObjectId().toHexString(); }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public ObjectId getId() { return this.id; }
+    public String getId() { return this.id; }
 
     public String getName() { return this.name; }
 

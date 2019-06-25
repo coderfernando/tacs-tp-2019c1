@@ -167,3 +167,11 @@ body {
 .checked-place {
 	color: #30c321;
 }
+
+#adminpanel .nav-pills {
+	margin-bottom: 20px;
+}
+
+#adminpanel > .row > .tabs {
+	width: 100%;
+}
