@@ -67,7 +67,7 @@
               Compare
             </b-button>
           </div>
-          <div v-if="!ready" class="row">
+          <div class="row">
             <b-list-group>
               <b-list-group-item
                 v-for="vnue in commonPlaces"
@@ -155,7 +155,7 @@ export default {
       this.usToComp2 = payload.usid;
       this.lstToComp2 = payload.lstid;
     },
-    async getUsersData() {
+     async getUsersData() {
       axios
         .get("/api/admin/users", {})
         .then(response => {
@@ -176,7 +176,8 @@ export default {
                 ...u.placesLists.map(function(pl) {
                   return {
                     id: pl.id,
-                    name: pl.name
+                    name: pl.name,
+                    places: pl.places
                   };
                 })
               ]
@@ -254,16 +255,11 @@ export default {
         });
     },
     async getCommomPlaces() {
-      var user1 = await this.getUser(this.usToComp1);
-      var user2 = await this.getUser(this.usToComp2);
-
-      var list1 = user1.placesLists.find(function(lista) {
-        return lista.id == this.lstToComp1;
-      });
-
-      var list2 = user2.placesLists.find(function(lista) {
-        return lista.id == this.lstToComp2;
-      });
+      let user1 =  this.users.find(u => u.id === this.usToComp1);
+      let user2 = this.users.find(u => u.id === this.usToComp2);
+            
+      let list1 = user1.placesLists.find(l => l.id === this.lstToComp1);
+      let list2 = user2.placesLists.find(l => l.id === this.lstToComp2);     
 
       var common = [];
 
@@ -279,8 +275,9 @@ export default {
           common.push(place);
         }
       });
+
       this.commonPlaces = common;
-      this.ready = true;
+      this.ready = true;      
     },
     async getPlaceInterest(placeid) {
       axios
