@@ -24,7 +24,91 @@
             </b-card>
           </div>
         </b-tab>
-        <b-tab title="Lists Comparison"></b-tab>
+        <b-tab title="Lists Comparison">
+          <div>
+            <table>
+              <th>First User</th>
+              <th>Second User</th>
+              <tr>
+                <td>
+                  <b-card no-body>
+                    <b-tabs pills card vertical>
+                      <b-tab v-for="us in users" :key="us.id" :title="us.name">
+                        <b-card no-body>
+                          <b-tabs pills card vertical>
+                            <b-tab
+                              v-for="lst in us.placesLists"
+                              :key="lst.id"
+                              :title="lst.name"
+                            >
+                              <b-button
+                                type="button"
+                                class="btn btn-primary"
+                                :click="
+                                  ((usToComp1 = us.id), (lstToComp1 = lst.id))
+                                "
+                              >
+                                Add to Compare
+                              </b-button>
+                            </b-tab>
+                          </b-tabs>
+                        </b-card>
+                      </b-tab>
+                    </b-tabs>
+                  </b-card>
+                </td>
+                <td>
+                  <b-card no-body>
+                    <b-tabs pills card vertical>
+                      <b-tab v-for="us in users" :key="us.id" :title="us.name">
+                        <b-card no-body>
+                          <b-tabs pills card vertical>
+                            <b-tab
+                              v-for="lst in us.placesLists"
+                              :key="lst.id"
+                              :title="lst.name"
+                            >
+                              <b-button
+                                type="button"
+                                class="btn btn-primary"
+                                :click="
+                                  ((usToComp2 = us.id), (lstToComp2 = lst.id))
+                                "
+                              >
+                                Add to Compare
+                              </b-button>
+                            </b-tab>
+                          </b-tabs>
+                        </b-card>
+                      </b-tab>
+                    </b-tabs>
+                  </b-card>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div align="center">
+            <b-button
+              type="button"
+              class="btn btn-primary"
+              @click="getCommomPlaces"
+            >
+              Compare
+            </b-button>
+          </div>
+          <div v-if="!ready" class="row">
+            <b-list-group>
+              <b-list-group-item
+                v-for="vnue in commonPlaces"
+                :key="vnue.foursquareId"
+              >
+                <p>{{ vnue.title }}</p>
+                <p>{{ vnue.address }}</p></b-list-group-item
+              >
+            </b-list-group>
+          </div>
+        </b-tab>
         <b-tab title="Place Interest"></b-tab>
         <b-tab title="Places Registered"></b-tab>
       </b-tabs>
@@ -44,7 +128,13 @@ export default {
   data: function() {
     return {
       loading: false,
-      users: []
+      ready: false,
+      users: [],
+      usToComp1: null,
+      usToComp2: null,
+      lstToComp1: null,
+      lstToComp2: null,
+      commonPlaces: []
     };
   },
   created() {
@@ -149,7 +239,12 @@ export default {
           console.log("ERROR", e);
         });
     },
-    async getCommomPlaces(userid1, listid1, userid2, listid2) {
+    async getCommomPlaces(
+      userid1 = this.usToComp1,
+      listid1 = this.lstToComp1,
+      userid2 = this.usToComp2,
+      listid2 = this.lstToComp2
+    ) {
       var user1 = this.getUser(userid1);
       var user2 = this.getUser(userid2);
 
@@ -175,7 +270,8 @@ export default {
           common.push(place);
         }
       });
-      return common;
+      this.commonPlaces = common;
+      this.ready = true;
     },
     async getPlaceInterest(placeid) {
       axios
