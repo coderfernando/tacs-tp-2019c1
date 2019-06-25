@@ -19,14 +19,14 @@ public class BackendApplication {
 	@Autowired
     private UserRepository ur;
 
-    @Bean
+/*     @Bean
     CommandLineRunner createAdmin() throws Exception {
         return args -> {
 			Users admin = new Users("admin", "$2a$10$AjHGc4x3Nez/p4ZpvFDWeO6FGxee/cVqj5KHHnHfuLnIOzC5ag4fm", true);
 			ur.deleteAll();
 			ur.save(admin);
 		};
-    }
+    } */
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
