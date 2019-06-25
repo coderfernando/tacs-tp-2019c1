@@ -308,7 +308,7 @@ export default {
           console.log("ERROR", e);
         });
     },
-    async getCommomPlaces() {
+    async getCommomPlaces() {      
       let user1 = this.users.find(u => u.id === this.usToComp1);
       let user2 = this.users.find(u => u.id === this.usToComp2);
 
@@ -329,7 +329,11 @@ export default {
           common.push(place);
         }
       });
-
+      if (common.length === 0) {
+        let strNoResults = `No places in common between list: "${list1.name}" from user: "${user1.name}"`;
+        strNoResults += ` and list: "${list2.name}" from user: "${user2.name}" :(`;
+        common.push({title: strNoResults})
+      }
       this.commonPlaces = common;
       this.ready = true;
     },
