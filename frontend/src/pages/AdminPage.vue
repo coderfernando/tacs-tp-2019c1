@@ -113,22 +113,44 @@
         <b-tab title="Registered Places">
           <div align="center">
             <b-button-group align="center">
-              <b-button @click="getRegisteredPlaces(0)">Today</b-button>
-              <b-button @click="getRegisteredPlaces(1)"
+              <b-button
+                :pressed="registeredPlacesSelectedButton == 0"
+                @click="getRegisteredPlaces(0)"
+                >Today</b-button
+              >
+              <b-button
+                :pressed="registeredPlacesSelectedButton == 1"
+                @click="getRegisteredPlaces(1)"
                 >Last Three Days</b-button
               >
-              <b-button @click="getRegisteredPlaces(2)">Last Week</b-button>
-              <b-button @click="getRegisteredPlaces(3)">Last Month</b-button>
-              <b-button @click="getRegisteredPlaces(4)"
+              <b-button
+                :pressed="registeredPlacesSelectedButton == 2"
+                @click="getRegisteredPlaces(2)"
+                >Last Week</b-button
+              >
+              <b-button
+                :pressed="registeredPlacesSelectedButton == 3"
+                @click="getRegisteredPlaces(3)"
+                >Last Month</b-button
+              >
+              <b-button
+                :pressed="registeredPlacesSelectedButton == 4"
+                @click="getRegisteredPlaces(4)"
                 >Beginning Of Times</b-button
               >
             </b-button-group>
           </div>
+          <br />
+          <div align="center">
+            {{ registeredPlaces.length }} registered places
+          </div>
+          <br />
           <div align="center">
             <b-card
               v-for="regPlace in registeredPlaces"
               :key="regPlace.venue.foursquareId"
               :header="regPlace.venue.title"
+              class="registeredPlaceCard"
             >
               <b-card-text>
                 <p>Address: {{ regPlace.venue.address }}</p>
@@ -169,12 +191,14 @@ export default {
       placesofinterest: [],
       placesofinterestFiltered: [],
       searchText: "",
-      registeredPlaces: []
+      registeredPlaces: [],
+      registeredPlacesSelectedButton: 0
     };
   },
   created() {
     this.getUsersData();
     this.getPlacesOfInterest();
+    this.getRegisteredPlaces(0);
   },
   methods: {
     setupComp1(payload) {
@@ -323,6 +347,7 @@ export default {
         });
     },
     async getRegisteredPlaces(num) {
+      this.registeredPlacesSelectedButton = num;
       var fecha = new Date();
       switch (num) {
         case 1:
@@ -335,14 +360,13 @@ export default {
           fecha.setDate(fecha.getDate() - 30);
           break;
         case 4:
-          fecha.setDate(new Date(2019, 1, 1, 0, 0, 0, 0));
+          fecha = new Date(2019, 1, 1);
           break;
-
         default:
           break;
       }
       axios
-        .get("/api/admin/placesregistered", { dateFrom: fecha })
+        .get("/api/admin/placesregistered?dateFrom=" + fecha)
         .then(response => {
           console.log("Response", response);
           this.loading = false;
