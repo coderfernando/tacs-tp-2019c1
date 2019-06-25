@@ -80,28 +80,36 @@
           </div>
         </b-tab>
         <b-tab title="Place Interest">
-        <div>                             
           <div>
-            <b-form-input 
-              v-model="searchText"
-              placeholder="Search by venue title"
-              v-on:input="filterInterestedPlaces"></b-form-input>
-            <div class="mt-2">Only shows first 10 places</div>
+            <div>
+              <b-form-input
+                v-model="searchText"
+                placeholder="Search by venue title"
+                @input="filterInterestedPlaces"
+              ></b-form-input>
+              <div class="mt-2">Only shows first 10 places</div>
+            </div>
+            <br />
+            <b-card
+              v-for="placeinterest in placesofinterestFiltered"
+              id="placeofinterestcard"
+              :key="placeinterest.id"
+              bg-variant="secondary"
+              text-variant="white"
+              :header="placeinterest.venue.title"
+            >
+              <b-card-text id="placeofinteresttext">
+                <p>
+                  Date of Register:
+                  {{ new Date(placeinterest.registeredDate).toDateString() }}
+                </p>
+                <p>
+                  Users interested: {{ placeinterest.usersInterestedCount }}
+                </p>
+              </b-card-text>
+            </b-card>
           </div>
-          <br>
-          <b-card id="placeofinterestcard"
-                  bg-variant="secondary"
-                  text-variant="white"
-                  v-for="placeinterest in placesofinterestFiltered"
-                    :key="placeinterest.id"
-                    :header="placeinterest.venue.title">
-            <b-card-text id="placeofinteresttext">             
-              <p>Date of Register: {{ new Date(placeinterest.registeredDate).toDateString() }}</p>
-              <p>Users interested: {{ placeinterest.usersInterestedCount }}</p>              
-            </b-card-text>            
-          </b-card>           
-        </div>
-        </b-tab>        
+        </b-tab>
         <b-tab title="Places Registered"></b-tab>
       </b-tabs>
     </div>
@@ -304,10 +312,16 @@ export default {
       axios
         .get("/api/admin/placesofinterest")
         .then(response => {
-          this.placesofinterest = response.data.sort(pi => pi.registeredDate).reverse();
-          this.placesofinterestFiltered = response.data.filter(d => true).sort(pi => pi.registeredDate).reverse().slice(0,10);
-          this.loading = false;          
-          console.log(this.placesofinterestFiltered) 
+          this.placesofinterest = response.data
+            .sort(pi => pi.registeredDate)
+            .reverse();
+          this.placesofinterestFiltered = response.data
+            .filter(d => true)
+            .sort(pi => pi.registeredDate)
+            .reverse()
+            .slice(0, 10);
+          this.loading = false;
+          console.log(this.placesofinterestFiltered);
           return response.data;
         })
         .catch(e => {
@@ -315,15 +329,26 @@ export default {
           console.log("ERROR", e);
         });
     },
-    async filterInterestedPlaces() {     
+    async filterInterestedPlaces() {
       this.placesofinterestFiltered = this.placesofinterest
-                                        .filter(pr => !this.searchText || this.textCompare(pr.venue.title, this.searchText))
-                                        .sort(pi => pi.registeredDate)
-                                        .reverse().slice(0,10);      
+        .filter(
+          pr =>
+            !this.searchText ||
+            this.textCompare(pr.venue.title, this.searchText)
+        )
+        .sort(pi => pi.registeredDate)
+        .reverse()
+        .slice(0, 10);
     },
     textCompare(text1, text2) {
-      text1 = text1.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")
-      text2 = text2.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+      text1 = text1
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      text2 = text2
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
       return text1.includes(text2);
     }
   }
@@ -331,9 +356,9 @@ export default {
 </script>
 <style>
 #placeofinterestcard {
-  margin-bottom: 15px;  
+  margin-bottom: 15px;
 }
 #placeofinteresttext {
-  margin-bottom: -25px;  
+  margin-bottom: -25px;
 }
 </style>
