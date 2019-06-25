@@ -34,25 +34,10 @@
                   <b-card no-body>
                     <b-tabs pills card vertical>
                       <b-tab v-for="us in users" :key="us.id" :title="us.name">
-                        <b-card no-body>
-                          <b-tabs pills card vertical>
-                            <b-tab
-                              v-for="lst in us.placesLists"
-                              :key="lst.id"
-                              :title="lst.name"
-                            >
-                              <b-button
-                                type="button"
-                                class="btn btn-primary"
-                                :click="
-                                  ((usToComp1 = us.id), (lstToComp1 = lst.id))
-                                "
-                              >
-                                Add to Compare
-                              </b-button>
-                            </b-tab>
-                          </b-tabs>
-                        </b-card>
+                        <UserComponent
+                          :user="us"
+                          @dato="setupComp1"
+                        ></UserComponent>
                       </b-tab>
                     </b-tabs>
                   </b-card>
@@ -61,25 +46,10 @@
                   <b-card no-body>
                     <b-tabs pills card vertical>
                       <b-tab v-for="us in users" :key="us.id" :title="us.name">
-                        <b-card no-body>
-                          <b-tabs pills card vertical>
-                            <b-tab
-                              v-for="lst in us.placesLists"
-                              :key="lst.id"
-                              :title="lst.name"
-                            >
-                              <b-button
-                                type="button"
-                                class="btn btn-primary"
-                                :click="
-                                  ((usToComp2 = us.id), (lstToComp2 = lst.id))
-                                "
-                              >
-                                Add to Compare
-                              </b-button>
-                            </b-tab>
-                          </b-tabs>
-                        </b-card>
+                        <UserComponent
+                          :user="us"
+                          @dato="setupComp2"
+                        ></UserComponent>
                       </b-tab>
                     </b-tabs>
                   </b-card>
@@ -118,12 +88,14 @@
 
 <script>
 import AppMenu from "@/components/AppMenu";
+import UserComponent from "@/components/UserComponent";
 import axios from "axios";
 
 export default {
   name: "AdminPage",
   components: {
-    "app-menu": AppMenu
+    "app-menu": AppMenu,
+    UserComponent: UserComponent
   },
   data: function() {
     return {
@@ -141,6 +113,14 @@ export default {
     this.getUsersData();
   },
   methods: {
+    setupComp1(payload) {
+      this.usToComp1 = payload.usid;
+      this.lstToComp1 = payload.lstid;
+    },
+    setupComp2(payload) {
+      this.usToComp2 = payload.usid;
+      this.lstToComp2 = payload.lstid;
+    },
     async getUsersData() {
       axios
         .get("/api/admin/users", {})
@@ -159,7 +139,7 @@ export default {
                 })
                 .reduce((a, b) => a + b, 0),
               placesLists: [
-                ...u.placesLists.map(pl => {
+                ...u.placesLists.map(function(pl) {
                   return {
                     id: pl.id,
                     name: pl.name
@@ -181,18 +161,18 @@ export default {
         .then(response => {
           console.log("Response", response);
           this.loading = false;
-          return response.data.map(u => {
+          return response.data.map(function(u) {
             return {
               id: u.id,
               name: u.name,
               lastAccess: u.lastAccess,
               placesLists: [
-                ...u.placesLists.map(pl => {
+                ...u.placesLists.map(function(pl) {
                   return {
                     id: pl.id,
                     name: pl.name,
                     places: [
-                      ...pl.places.map(p => {
+                      ...pl.places.map(function(p) {
                         return {
                           latitude: p.location.lat,
                           longitude: p.location.lng,
@@ -239,21 +219,16 @@ export default {
           console.log("ERROR", e);
         });
     },
-    async getCommomPlaces(
-      userid1 = this.usToComp1,
-      listid1 = this.lstToComp1,
-      userid2 = this.usToComp2,
-      listid2 = this.lstToComp2
-    ) {
-      var user1 = this.getUser(userid1);
-      var user2 = this.getUser(userid2);
+    async getCommomPlaces() {
+      var user1 = await this.getUser(this.usToComp1);
+      var user2 = await this.getUser(this.usToComp2);
 
       var list1 = user1.placesLists.find(function(lista) {
-        return lista.id == listid1;
+        return lista.id == this.lstToComp1;
       });
 
       var list2 = user2.placesLists.find(function(lista) {
-        return lista.id == listid2;
+        return lista.id == this.lstToComp2;
       });
 
       var common = [];
