@@ -20,25 +20,25 @@ public class UserRepositoryTests {
     @Autowired
     UserRepository userRepository;
 
+    Users tomas;
+
     @Before
-    public void cleanRepo(){
-        userRepository.deleteAll();
+    public void initUsers(){
+        this.tomas = new Users("tomas", "passDeTomas", false);
     }
 
     @After
-    public void createAdmin(){
-        Users admin = new Users("admin", "$2a$10$AjHGc4x3Nez/p4ZpvFDWeO6FGxee/cVqj5KHHnHfuLnIOzC5ag4fm", true);
-        userRepository.save(admin);
+    public void cleanRepo(){
+        Users tomasToDel = userRepository.findFirstByName("tomas");
+        if (tomasToDel != null) { userRepository.delete(tomasToDel); }
     }
 
     @Test
     public void whenFindFirstByName_thenReturnUser() {
-        Users tomas = new Users("tomas", "passDeTomas", false);
-
-        userRepository.save(tomas);
+        userRepository.save(this.tomas);
         
-        Users encontrado = userRepository.findFirstByName(tomas.getName());
+        Users encontrado = userRepository.findFirstByName(this.tomas.getName());
 
-        assertEquals("Prueba de Persistencia de Usuario",tomas.getName(),encontrado.getName());
+        assertEquals("Prueba de Persistencia de Usuario",this.tomas.getName(),encontrado.getName());
     }
 }

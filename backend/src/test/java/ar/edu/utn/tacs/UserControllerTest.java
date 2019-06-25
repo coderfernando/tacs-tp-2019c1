@@ -24,26 +24,26 @@ public class UserControllerTest {
     @Autowired
     UserRepository ur;
 
+    Users tom;
+
     @Before
-    public void cleanRepo(){
-        ur.deleteAll();
+    public void initUsers(){
+        this.tom = new Users("tom", "tomspass", false);
     }
 
     @After
-    public void createAdmin(){
-        Users admin = new Users("admin", "$2a$10$AjHGc4x3Nez/p4ZpvFDWeO6FGxee/cVqj5KHHnHfuLnIOzC5ag4fm", true);
-        ur.save(admin);
+    public void cleanRepo(){
+        Users tomToDel = ur.findFirstByName("tom");
+        if (tomToDel != null) { ur.delete(tomToDel); }
     }
 
     @Test
     public void createUser_existsInRepo() {
 
-        Users tom = new Users("tom", "tomspass", false);
+        uc.create(this.tom);
         
-        uc.create(tom);
-        
-        Users encontrado = ur.findFirstByName(tom.getName());
+        Users encontrado = ur.findFirstByName(this.tom.getName());
 
-        assertEquals("Prueba de creacion y persistencia de Usuario",tom.getName(),encontrado.getName());
+        assertEquals("Prueba de creacion y persistencia de Usuario",this.tom.getName(),encontrado.getName());
     }
 }
