@@ -348,7 +348,14 @@ export default {
     },
     async getRegisteredPlaces(num) {
       this.registeredPlacesSelectedButton = num;
-      var fecha = new Date();
+      /* eslint-disable */
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+      today = mm + '/' + dd + '/' + yyyy;
+      var fecha = new Date(today);
+      /* eslint-enable */
       switch (num) {
         case 1:
           fecha.setDate(fecha.getDate() - 3);
