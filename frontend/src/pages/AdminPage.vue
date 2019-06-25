@@ -7,7 +7,7 @@
       <img class="loading-image" src="/static/img/loading.gif" />
     </div>
     <div v-if="!loading" class="row">
-      <b-tabs pills>
+      <b-tabs pills align="center">
         <b-tab title="User Data" active>
           <div>
             <b-card no-body>
@@ -67,7 +67,7 @@
               Compare
             </b-button>
           </div>
-          <div class="row">
+          <div align="center">
             <b-list-group>
               <b-list-group-item
                 v-for="vnue in commonPlaces"
@@ -110,7 +110,36 @@
             </b-card>
           </div>
         </b-tab>
-        <b-tab title="Places Registered"></b-tab>
+        <b-tab title="Registered Places">
+          <div align="center">
+            <b-button-group align="center">
+              <b-button @click="getRegisteredPlaces(0)">Today</b-button>
+              <b-button @click="getRegisteredPlaces(1)"
+                >Last Three Days</b-button
+              >
+              <b-button @click="getRegisteredPlaces(2)">Last Week</b-button>
+              <b-button @click="getRegisteredPlaces(3)">Last Month</b-button>
+              <b-button @click="getRegisteredPlaces(4)"
+                >Beginning Of Times</b-button
+              >
+            </b-button-group>
+          </div>
+          <div align="center">
+            <b-card
+              v-for="regPlace in registeredPlaces"
+              :key="regPlace.venue.foursquareId"
+              :header="regPlace.venue.title"
+            >
+              <b-card-text>
+                <p>Address: {{ regPlace.venue.address }}</p>
+                <p>
+                  Date of Register:
+                  {{ new Date(regPlace.date).toDateString() }}
+                </p>
+              </b-card-text>
+            </b-card>
+          </div>
+        </b-tab>
       </b-tabs>
     </div>
   </div>
@@ -139,7 +168,8 @@ export default {
       commonPlaces: [],
       placesofinterest: [],
       placesofinterestFiltered: [],
-      searchText: ""
+      searchText: "",
+      registeredPlaces: []
     };
   },
   created() {
@@ -155,7 +185,7 @@ export default {
       this.usToComp2 = payload.usid;
       this.lstToComp2 = payload.lstid;
     },
-     async getUsersData() {
+    async getUsersData() {
       axios
         .get("/api/admin/users", {})
         .then(response => {
@@ -255,21 +285,21 @@ export default {
         });
     },
     async getCommomPlaces() {
-      let user1 =  this.users.find(u => u.id === this.usToComp1);
+      let user1 = this.users.find(u => u.id === this.usToComp1);
       let user2 = this.users.find(u => u.id === this.usToComp2);
-            
+
       let list1 = user1.placesLists.find(l => l.id === this.lstToComp1);
-      let list2 = user2.placesLists.find(l => l.id === this.lstToComp2);     
+      let list2 = user2.placesLists.find(l => l.id === this.lstToComp2);
 
       var common = [];
 
       list1.places.forEach(place => {
         if (
-          list2.places.filter(function(pl) {
-            return pl.foursquareId == place.foursquareId;
+          list2.places.some(function(pl) {
+            return pl.foursquareId === place.foursquareId;
           }) &&
           !common.some(function(lugar) {
-            return place.foursquareId == lugar.foursquareId;
+            return place.foursquareId === lugar.foursquareId;
           })
         ) {
           common.push(place);
@@ -277,7 +307,7 @@ export default {
       });
 
       this.commonPlaces = common;
-      this.ready = true;      
+      this.ready = true;
     },
     async getPlaceInterest(placeid) {
       axios
@@ -292,13 +322,41 @@ export default {
           console.log("ERROR", e);
         });
     },
-    async getRegisteredPlaces(fecha) {
+    async getRegisteredPlaces(num) {
+      var fecha = new Date();
+      switch (num) {
+        case 1:
+          fecha.setDate(fecha.getDate() - 3);
+          break;
+        case 2:
+          fecha.setDate(fecha.getDate() - 7);
+          break;
+        case 3:
+          fecha.setDate(fecha.getDate() - 30);
+          break;
+        case 4:
+          fecha.setDate(new Date(2019, 1, 1, 0, 0, 0, 0));
+          break;
+
+        default:
+          break;
+      }
       axios
         .get("/api/admin/placesregistered", { dateFrom: fecha })
         .then(response => {
           console.log("Response", response);
           this.loading = false;
-          return response.data;
+          this.registeredPlaces = response.data.map(rp => {
+            return {
+              id: rp.id,
+              venue: {
+                title: rp.venue.title,
+                address: rp.venue.address,
+                foursquareId: rp.venue.id
+              },
+              date: rp.registeredDate
+            };
+          });
         })
         .catch(e => {
           this.loading = false;
@@ -313,7 +371,7 @@ export default {
             .sort(pi => pi.registeredDate)
             .reverse();
           this.placesofinterestFiltered = response.data
-            .filter(d => true)
+            //.filter(d => true)
             .sort(pi => pi.registeredDate)
             .reverse()
             .slice(0, 10);

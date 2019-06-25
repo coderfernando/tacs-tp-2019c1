@@ -128,7 +128,7 @@ export default {
         lon: null,
         near: null,
         termino: null,
-        radius: 1000
+        radius: 99999
       };
 
       if (this.selselected) {
